@@ -52,8 +52,11 @@ hltvalidation = cms.Sequence(
 # additional producer sequence prior to hltvalidation_fastsim
 # to evacuate producers from the EndPath
 hltassociation_fastsim = cms.Sequence(
-    HLTMuonAss_FastSim
-  + egammaSelectors
+##########################
+### MOVED in validation seq as for FullSIm
+##########################    HLTMuonAss_FastSim
+#  + 
+    egammaSelectors
   + hltTauRef
 )
 

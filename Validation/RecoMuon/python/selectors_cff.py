@@ -25,7 +25,7 @@ displacedMuonTPSet = cms.PSet(
     minRapidity = cms.double(-2.4),
     maxRapidity = cms.double(2.4),
     signalOnly = cms.bool(True),
-    stableOnly = cms.bool(False),
+    stableOnly = cms.bool(True), # accept only TP from the Generator (linked to GenParticles)
     chargedOnly = cms.bool(True)
 )
 
