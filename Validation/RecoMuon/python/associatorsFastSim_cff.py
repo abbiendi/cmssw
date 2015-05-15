@@ -151,8 +151,6 @@ tpToL3TkMuonAssociationFS.tracksTag = 'hltL3TkTracksFromL2'
 tpToL3TkMuonAssociationFS.UseTracker = True
 tpToL3TkMuonAssociationFS.UseMuon = False
 tpToL3TkMuonAssociationFS.ignoreMissingTrackCollection = True
-#tpToL3TkMuonAssociationFS.UseSplitting = False
-#tpToL3TkMuonAssociationFS.UseGrouped = False
 
 tpToL2MuonAssociationFS = baseMuonAssociatorFS.clone()
 tpToL2MuonAssociationFS.tracksTag = 'hltL2Muons'
@@ -171,35 +169,33 @@ tpToL3MuonAssociationFS.tracksTag = 'hltL3Muons'
 tpToL3MuonAssociationFS.UseTracker = True
 tpToL3MuonAssociationFS.UseMuon = True
 tpToL3MuonAssociationFS.ignoreMissingTrackCollection = True
-#tpToL3MuonAssociationFS.UseSplitting = False
-#tpToL3MuonAssociationFS.UseGrouped = False
 
 #
 # The FastSim association sequences
 #
 
-muonAssociationFastSim_seq = cms.Sequence(
-    probeTracks+tpToTkMuonAssociationFS
-    +trackAssociatorByHits+tpToTkmuTrackAssociationFS 
-    +seedsOfSTAmuons_seq+tpToStaSeedAssociationFS
-    +tpToStaMuonAssociationFS+tpToStaUpdMuonAssociationFS
-    +extractedMuonTracks_seq+tpToGlbMuonAssociationFS
-    )
+#muonAssociationFastSim_seq = cms.Sequence(
+#    probeTracks_seq+tpToTkMuonAssociationFS
+#    +trackAssociatorByHits+tpToTkmuTrackAssociationFS 
+#    +seedsOfSTAmuons_seq+tpToStaSeedAssociationFS
+#    +tpToStaMuonAssociationFS+tpToStaUpdMuonAssociationFS
+#    +extractedMuonTracks_seq+tpToGlbMuonAssociationFS
+#    )
 
-muonAssociationTEVFastSim_seq = cms.Sequence(
-    tpToTevFirstMuonAssociationFS+tpToTevPickyMuonAssociationFS+tpToTevDytMuonAssociationFS
-    )
+#muonAssociationTEVFastSim_seq = cms.Sequence(
+#    tpToTevFirstMuonAssociationFS+tpToTevPickyMuonAssociationFS+tpToTevDytMuonAssociationFS
+#    )
 
-muonAssociationDisplacedFastSim_seq = cms.Sequence(
-    seedsOfDisplacedSTAmuons_seq+tpToDisplacedStaSeedAssociationFS+tpToDisplacedStaMuonAssociationFS
-    +tpToDisplacedTrkMuonAssociationFS+tpToDisplacedGlbMuonAssociationFS
-    )
+#muonAssociationDisplacedFastSim_seq = cms.Sequence(
+#    seedsOfDisplacedSTAmuons_seq+tpToDisplacedStaSeedAssociationFS+tpToDisplacedStaMuonAssociationFS
+#    +tpToDisplacedTrkMuonAssociationFS+tpToDisplacedGlbMuonAssociationFS
+#    )
 
-muonAssociationRefitFastSim_seq = cms.Sequence(
-    tpToStaRefitMuonAssociationFS+tpToStaRefitUpdMuonAssociationFS
-    )
+#muonAssociationRefitFastSim_seq = cms.Sequence(
+#    tpToStaRefitMuonAssociationFS+tpToStaRefitUpdMuonAssociationFS
+#    )
 
-muonAssociationHLTFastSim_seq = cms.Sequence(
-    tpToL2MuonAssociationFS+tpToL2UpdMuonAssociationFS+tpToL3MuonAssociationFS+tpToL3TkMuonAssociationFS
-    )
+#muonAssociationHLTFastSim_seq = cms.Sequence(
+#    tpToL2MuonAssociationFS+tpToL2UpdMuonAssociationFS+tpToL3MuonAssociationFS+tpToL3TkMuonAssociationFS
+#    )
 

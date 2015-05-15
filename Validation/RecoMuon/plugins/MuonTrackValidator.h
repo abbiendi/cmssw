@@ -21,24 +21,26 @@ class MuonTrackValidator : public DQMEDAnalyzer, protected MuonTrackValidatorBas
     dirName_ = pset.getParameter<std::string>("dirName");
     associatormap = pset.getParameter< edm::InputTag >("associatormap");
     UseAssociators = pset.getParameter< bool >("UseAssociators");
-    tpSelector = TrackingParticleSelector(pset.getParameter<double>("ptMinTP"),
-					  pset.getParameter<double>("minRapidityTP"),
-					  pset.getParameter<double>("maxRapidityTP"),
-					  pset.getParameter<double>("tipTP"),
-					  pset.getParameter<double>("lipTP"),
-					  pset.getParameter<int>("minHitTP"),
-					  pset.getParameter<bool>("signalOnlyTP"),
-					  pset.getParameter<bool>("chargedOnlyTP"),
-					  pset.getParameter<bool>("stableOnlyTP"),
-					  pset.getParameter<std::vector<int> >("pdgIdTP"));
-    cosmictpSelector = CosmicTrackingParticleSelector(pset.getParameter<double>("ptMinTP"),
-						      pset.getParameter<double>("minRapidityTP"),
-						      pset.getParameter<double>("maxRapidityTP"),
-						      pset.getParameter<double>("tipTP"),
-						      pset.getParameter<double>("lipTP"),
-						      pset.getParameter<int>("minHitTP"),
-						      pset.getParameter<bool>("chargedOnlyTP"),
-						      pset.getParameter<std::vector<int> >("pdgIdTP"));
+
+    tpSelector = TrackingParticleSelector(pset.getParameter<double>("ptMin"),
+					  pset.getParameter<double>("minRapidity"),
+					  pset.getParameter<double>("maxRapidity"),
+					  pset.getParameter<double>("tip"),
+					  pset.getParameter<double>("lip"),
+					  pset.getParameter<int>("minHit"),
+					  pset.getParameter<bool>("signalOnly"),
+					  pset.getParameter<bool>("chargedOnly"),
+					  pset.getParameter<bool>("stableOnly"),
+					  pset.getParameter<std::vector<int> >("pdgId"));
+
+    cosmictpSelector = CosmicTrackingParticleSelector(pset.getParameter<double>("ptMin"),
+						      pset.getParameter<double>("minRapidity"),
+						      pset.getParameter<double>("maxRapidity"),
+						      pset.getParameter<double>("tip"),
+						      pset.getParameter<double>("lip"),
+						      pset.getParameter<int>("minHit"),
+						      pset.getParameter<bool>("chargedOnly"),
+						      pset.getParameter<std::vector<int> >("pdgId"));
     
     BiDirectional_RecoToSim_association = pset.getParameter<bool>("BiDirectional_RecoToSim_association");
 

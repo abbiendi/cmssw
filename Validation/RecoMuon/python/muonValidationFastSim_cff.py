@@ -53,6 +53,22 @@ from Validation.RecoMuon.muonValidation_cff import tevMuonDytTrackVMuonAssoc
 tevMuonDytTrackVMuonAssocFS = tevMuonDytTrackVMuonAssoc.clone()
 tevMuonDytTrackVMuonAssocFS.associatormap = 'tpToTevDytMuonAssociationFS'
 
+from Validation.RecoMuon.muonValidation_cff import displacedTrackVMuonAssoc
+displacedTrackVMuonAssocFS = displacedTrackVMuonAssoc.clone()
+displacedTrackVMuonAssocFS.associatormap = 'tpToDisplacedTrkMuonAssociationFS'
+
+from Validation.RecoMuon.muonValidation_cff import displacedStaSeedTrackVMuonAssoc
+displacedStaSeedTrackVMuonAssocFS = displacedStaSeedTrackVMuonAssoc.clone()
+displacedStaSeedTrackVMuonAssocFS.associatormap = 'tpToDisplacedStaSeedAssociationFS'
+
+from Validation.RecoMuon.muonValidation_cff import displacedStaMuonTrackVMuonAssoc
+displacedStaMuonTrackVMuonAssocFS = displacedStaMuonTrackVMuonAssoc.clone()
+displacedStaMuonTrackVMuonAssocFS.associatormap = 'tpToDisplacedStaMuonAssociationFS'
+
+from Validation.RecoMuon.muonValidation_cff import displacedGlbMuonTrackVMuonAssoc
+displacedGlbMuonTrackVMuonAssocFS = displacedGlbMuonTrackVMuonAssoc.clone()
+displacedGlbMuonTrackVMuonAssocFS.associatormap = 'tpToDisplacedGlbMuonAssociation'
+
 # Configurations for RecoMuonValidator
 from Validation.RecoMuon.muonValidation_cff import *
 
@@ -95,6 +111,13 @@ muonValidationFastSimRefit_seq = cms.Sequence(
     +tpToStaRefitUpdMuonAssociationFS + staRefitUpdMuonTrackVMuonAssocFS
 )
 
+muonValidationFastSimDisplaced_seq = cms.Sequence(
+    seedsOfDisplacedSTAmuons_seq + tpToDisplacedStaSeedAssociationFS + displacedStaSeedTrackVMuonAssocFS
+    +tpToDisplacedStaMuonAssociationFS + displacedStaMuonTrackVMuonAssocFS
+    +tpToDisplacedTrkMuonAssociationFS + displacedTrackVMuonAssocFS 
+    +tpToDisplacedGlbMuonAssociationFS + displacedGlbMuonTrackVMuonAssocFS
+)
+
 muonValidationFastSimRMV_seq = cms.Sequence(
     muonAssociatorByHitsNoSimHitsHelperTrk +recoMuonVMuAssoc_trk
     +muonAssociatorByHitsNoSimHitsHelperStandalone +recoMuonVMuAssoc_sta
@@ -121,6 +144,7 @@ recoMuonValidationFastSim = cms.Sequence(
     muonValidationFastSimBase_seq 
     + muonValidationFastSimTEV_seq 
     + muonValidationFastSimRefit_seq
+    + muonValidationFastSimDisplaced_seq
     + muonValidationFastSimRMV_seq
     )
 

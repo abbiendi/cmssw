@@ -165,8 +165,6 @@ tpToL3TkMuonAssociation.DTrechitTag = 'hltDt1DRecHits'
 tpToL3TkMuonAssociation.UseTracker = True
 tpToL3TkMuonAssociation.UseMuon = False
 tpToL3TkMuonAssociation.ignoreMissingTrackCollection = True
-#tpToL3TkMuonAssociation.UseSplitting = False
-#tpToL3TkMuonAssociation.UseGrouped = False
 
 tpToL2MuonAssociation = MABH.clone()
 tpToL2MuonAssociation.tracksTag = 'hltL2Muons'
@@ -188,8 +186,6 @@ tpToL3MuonAssociation.DTrechitTag = 'hltDt1DRecHits'
 tpToL3MuonAssociation.UseTracker = True
 tpToL3MuonAssociation.UseMuon = True
 tpToL3MuonAssociation.ignoreMissingTrackCollection = True
-#tpToL3MuonAssociation.UseSplitting = False
-#tpToL3MuonAssociation.UseGrouped = False
 
 #
 # COSMICS reco
@@ -222,21 +218,16 @@ tpToTkCosmic1LegSelMuonAssociation = MABH.clone()
 tpToTkCosmic1LegSelMuonAssociation.tracksTag = 'ctfWithMaterialTracksP5'
 tpToTkCosmic1LegSelMuonAssociation.UseTracker = True
 tpToTkCosmic1LegSelMuonAssociation.UseMuon = False
-#tpToTkCosmic1LegSelMuonAssociation.EfficiencyCut_track = 0.5   // already default 
 
 tpToStaCosmic1LegSelMuonAssociation = MABH.clone()
 tpToStaCosmic1LegSelMuonAssociation.tracksTag = 'cosmicMuons1Leg'
 tpToStaCosmic1LegSelMuonAssociation.UseTracker = False
 tpToStaCosmic1LegSelMuonAssociation.UseMuon = True
-tpToStaCosmic1LegSelMuonAssociation.includeZeroHitMuons = False
-#tpToStaCosmic1LegSelMuonAssociation.EfficiencyCut_muon = 0.5       // already default
 
 tpToGlbCosmic1LegSelMuonAssociation = MABH.clone()
 tpToGlbCosmic1LegSelMuonAssociation.tracksTag = 'globalCosmicMuons1Leg'
 tpToGlbCosmic1LegSelMuonAssociation.UseTracker = True
 tpToGlbCosmic1LegSelMuonAssociation.UseMuon = True
-#tpToGlbCosmic1LegSelMuonAssociation.EfficiencyCut_track = 0.5       // already default
-#tpToGlbCosmic1LegSelMuonAssociation.EfficiencyCut_muon = 0.5        // already default
 
 #
 # The full-sim association sequences
@@ -247,27 +238,31 @@ muonAssociation_seq = cms.Sequence(
     +trackAssociatorByHits+tpToTkmuTrackAssociation
     +seedsOfSTAmuons_seq+tpToStaSeedAssociation+tpToStaMuonAssociation+tpToStaUpdMuonAssociation
     +extractedMuonTracks_seq+tpToGlbMuonAssociation
-)
+    )
 
 muonAssociationTEV_seq = cms.Sequence(
     tpToTevFirstMuonAssociation+tpToTevPickyMuonAssociation+tpToTevDytMuonAssociation
-)
+    )
 
 muonAssociationDisplaced_seq = cms.Sequence(
     seedsOfDisplacedSTAmuons_seq+tpToDisplacedStaSeedAssociation+tpToDisplacedStaMuonAssociation
     +tpToDisplacedTrkMuonAssociation+tpToDisplacedGlbMuonAssociation
-)
+    )
 
-muonAssociationRefit_seq = cms.Sequence(tpToStaRefitMuonAssociation+tpToStaRefitUpdMuonAssociation)
+muonAssociationRefit_seq = cms.Sequence(
+    tpToStaRefitMuonAssociation+tpToStaRefitUpdMuonAssociation
+    )
 
-muonAssociationSET_seq = cms.Sequence(tpToStaSETMuonAssociation+tpToStaSETUpdMuonAssociation+tpToGlbSETMuonAssociation)
+muonAssociationSET_seq = cms.Sequence(
+    tpToStaSETMuonAssociation+tpToStaSETUpdMuonAssociation+tpToGlbSETMuonAssociation
+    )
 
 muonAssociationCosmic_seq = cms.Sequence(
     tpToTkCosmicSelMuonAssociation+ tpToTkCosmic1LegSelMuonAssociation
     +tpToStaCosmicSelMuonAssociation+tpToStaCosmic1LegSelMuonAssociation
     +tpToGlbCosmicSelMuonAssociation+tpToGlbCosmic1LegSelMuonAssociation
-)
+    )
 
 muonAssociationHLT_seq = cms.Sequence(
     tpToL2MuonAssociation+tpToL2UpdMuonAssociation+tpToL3TkMuonAssociation+tpToL3MuonAssociation
-)
+    )

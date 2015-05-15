@@ -71,9 +71,9 @@ class MuonTrackValidatorBase {
     nintPt(pset.getParameter<int>("nintPt")),
     useLogPt(pset.getUntrackedParameter<bool>("useLogPt",false)),
     useInvPt(pset.getParameter<bool>("useInvPt")),
-    minHit(pset.getParameter<double>("minHit")),
-    maxHit(pset.getParameter<double>("maxHit")),
-    nintHit(pset.getParameter<int>("nintHit")),
+    minNHit(pset.getParameter<double>("minNHit")),
+    maxNHit(pset.getParameter<double>("maxNHit")),
+    nintNHit(pset.getParameter<int>("nintNHit")),
       //
     minDTHit(pset.getParameter<double>("minDTHit")),
     maxDTHit(pset.getParameter<double>("maxDTHit")),
@@ -250,7 +250,7 @@ class MuonTrackValidatorBase {
 
   double minEta, maxEta;  int nintEta;  bool useFabsEta;
   double minPt, maxPt;  int nintPt;  bool useLogPt;  bool useInvPt; 
-  double minHit, maxHit;  int nintHit;
+  double minNHit, maxNHit;  int nintNHit;
   double minDTHit, maxDTHit; int nintDTHit;
   double minCSCHit, maxCSCHit;  int nintCSCHit;
   double minRPCHit, maxRPCHit;  int nintRPCHit;

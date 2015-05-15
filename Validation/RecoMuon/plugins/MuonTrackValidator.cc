@@ -73,11 +73,11 @@ void MuonTrackValidator::bookHistograms(DQMStore::IBooker& ibooker, edm::Run con
       h_simulphi.push_back( ibooker.book1D("num_simul_phi","N of simulated tracks vs phi",nintPhi,minPhi,maxPhi) );
       h_misidphi.push_back( ibooker.book1D("num_chargemisid_phi","N of associated (simToReco) tracks with charge misID vs phi",nintPhi,minPhi,maxPhi) );
 
-      h_recohit.push_back( ibooker.book1D("num_reco_hit","N of reco track vs hit",nintHit,minHit,maxHit) );
-      h_assochit.push_back( ibooker.book1D("num_assoSimToReco_hit","N of associated tracks (simToReco) vs hit",nintHit,minHit,maxHit) );
-      h_assoc2hit.push_back( ibooker.book1D("num_assoRecoToSim_hit","N of associated (recoToSim) tracks vs hit",nintHit,minHit,maxHit) );
-      h_simulhit.push_back( ibooker.book1D("num_simul_hit","N of simulated tracks vs hit",nintHit,minHit,maxHit) );
-      h_misidhit.push_back( ibooker.book1D("num_chargemisid_hit","N of associated (simToReco) tracks with charge misID vs hit",nintHit,minHit,maxHit) );
+      h_recohit.push_back( ibooker.book1D("num_reco_hit","N of reco track vs hit",nintNHit,minNHit,maxNHit) );
+      h_assochit.push_back( ibooker.book1D("num_assoSimToReco_hit","N of associated tracks (simToReco) vs hit",nintNHit,minNHit,maxNHit) );
+      h_assoc2hit.push_back( ibooker.book1D("num_assoRecoToSim_hit","N of associated (recoToSim) tracks vs hit",nintNHit,minNHit,maxNHit) );
+      h_simulhit.push_back( ibooker.book1D("num_simul_hit","N of simulated tracks vs hit",nintNHit,minNHit,maxNHit) );
+      h_misidhit.push_back( ibooker.book1D("num_chargemisid_hit","N of associated (simToReco) tracks with charge misID vs hit",nintNHit,minNHit,maxNHit) );
 
       h_recodxy.push_back( ibooker.book1D("num_reco_dxy","N of reco track vs dxy",nintDxy,minDxy,maxDxy) );
       h_assocdxy.push_back( ibooker.book1D("num_assoSimToReco_dxy","N of associated tracks (simToReco) vs dxy",nintDxy,minDxy,maxDxy) );
@@ -105,13 +105,13 @@ void MuonTrackValidator::bookHistograms(DQMStore::IBooker& ibooker, edm::Run con
       h_nchi2.push_back( ibooker.book1D("chi2","Track normalized #chi^{2}", 80, 0., 20.) );
       h_nchi2_prob.push_back( ibooker.book1D("chi2prob", "Probability of track normalized #chi^{2}",100,0.,1.) );
 
-      chi2_vs_nhits.push_back( ibooker.book2D("chi2_vs_nhits","#chi^{2} vs nhits",nintHit,minHit,maxHit,20,0.,10.) );
+      chi2_vs_nhits.push_back( ibooker.book2D("chi2_vs_nhits","#chi^{2} vs nhits",nintNHit,minNHit,maxNHit,20,0.,10.) );
       chi2_vs_eta.push_back( ibooker.book2D("chi2_vs_eta","chi2_vs_eta",nintEta,minEta,maxEta, 40, 0., 20. ));
       chi2_vs_phi.push_back( ibooker.book2D("chi2_vs_phi","#chi^{2} vs #phi",nintPhi,minPhi,maxPhi, 40, 0., 20. ) );
 
-      h_nhits.push_back( ibooker.book1D("nhits", "Number of hits per track", nintHit,minHit,maxHit ) );
-      nhits_vs_eta.push_back( ibooker.book2D("nhits_vs_eta","Number of Hits vs eta",nintEta,minEta,maxEta,nintHit,minHit,maxHit) );
-      nhits_vs_phi.push_back( ibooker.book2D("nhits_vs_phi","#hits vs #phi",nintPhi,minPhi,maxPhi,nintHit,minHit,maxHit) );
+      h_nhits.push_back( ibooker.book1D("nhits", "Number of hits per track", nintNHit,minNHit,maxNHit ) );
+      nhits_vs_eta.push_back( ibooker.book2D("nhits_vs_eta","Number of Hits vs eta",nintEta,minEta,maxEta,nintNHit,minNHit,maxNHit) );
+      nhits_vs_phi.push_back( ibooker.book2D("nhits_vs_phi","#hits vs #phi",nintPhi,minPhi,maxPhi,nintNHit,minNHit,maxNHit) );
       
       if (do_MUOhitsPlots) {
 	nDThits_vs_eta.push_back( ibooker.book2D("nDThits_vs_eta","Number of DT hits vs eta",nintEta,minEta,maxEta,nintDTHit,minDTHit,maxDTHit) );
@@ -187,7 +187,7 @@ void MuonTrackValidator::bookHistograms(DQMStore::IBooker& ibooker, edm::Run con
       h_dzpull.push_back( ibooker.book1D("dzpull","dz Pull",100,-10.,10.) );
       dzpull_vs_eta.push_back(ibooker.book2D("dzpull_vs_eta","dz Pull vs #eta",nintEta,minEta,maxEta,100,-10,10));
 
-      nRecHits_vs_nSimHits.push_back( ibooker.book2D("nRecHits_vs_nSimHits","nRecHits vs nSimHits",nintHit,minHit,maxHit, nintHit,minHit,maxHit )); 
+      nRecHits_vs_nSimHits.push_back( ibooker.book2D("nRecHits_vs_nSimHits","nRecHits vs nSimHits",nintNHit,minNHit,maxNHit, nintNHit,minNHit,maxNHit )); 
      
       if (MABH) {
 	h_PurityVsQuality.push_back
