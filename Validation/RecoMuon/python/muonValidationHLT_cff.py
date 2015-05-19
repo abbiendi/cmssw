@@ -27,8 +27,6 @@ l3TkMuonMuTrackV.label = ('hltL3TkTracksFromL2:',)
 l3TkMuonMuTrackV.dirName = 'HLT/Muon/MultiTrack/'
 #l3TkMuonMuTrackV.beamSpot = 'hltOfflineBeamSpot'
 l3TkMuonMuTrackV.ignoremissingtrackcollection=True
-l3TkMuonMuTrackV.usetracker = True
-l3TkMuonMuTrackV.usemuon = False
 l3TkMuonMuTrackV.muonHistoParameters = trkMuonHistoParameters
 
 l3MuonMuTrackV = Validation.RecoMuon.MuonTrackValidator_cfi.muonTrackValidator.clone()

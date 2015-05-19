@@ -52,8 +52,6 @@ class MuonTrackValidatorBase {
 
   MuonTrackValidatorBase(const edm::ParameterSet& pset):
     label(pset.getParameter< std::vector<edm::InputTag> >("label")),
-    usetracker(pset.getParameter<bool>("usetracker")),
-    usemuon(pset.getParameter<bool>("usemuon")),
     bsSrc(pset.getParameter< edm::InputTag >("beamSpot")),
     label_tp_effic(pset.getParameter< edm::InputTag >("label_tp_effic")),
     label_tp_fake(pset.getParameter< edm::InputTag >("label_tp_fake")),
@@ -61,83 +59,87 @@ class MuonTrackValidatorBase {
     associators(pset.getParameter< std::vector<std::string> >("associators")),
     out(pset.getParameter<std::string>("outputFile")),
     parametersDefiner(pset.getParameter<std::string>("parametersDefiner")),
-    //
-    minEta(pset.getParameter<double>("minEta")),
-    maxEta(pset.getParameter<double>("maxEta")),
-    nintEta(pset.getParameter<int>("nintEta")),
-    useFabsEta(pset.getParameter<bool>("useFabsEta")),
-    minPt(pset.getParameter<double>("minPt")),
-    maxPt(pset.getParameter<double>("maxPt")),
-    nintPt(pset.getParameter<int>("nintPt")),
-    useLogPt(pset.getUntrackedParameter<bool>("useLogPt",false)),
-    useInvPt(pset.getParameter<bool>("useInvPt")),
-    minNHit(pset.getParameter<double>("minNHit")),
-    maxNHit(pset.getParameter<double>("maxNHit")),
-    nintNHit(pset.getParameter<int>("nintNHit")),
-      //
-    minDTHit(pset.getParameter<double>("minDTHit")),
-    maxDTHit(pset.getParameter<double>("maxDTHit")),
-    nintDTHit(pset.getParameter<int>("nintDTHit")),
-      //
-    minCSCHit(pset.getParameter<double>("minCSCHit")),
-    maxCSCHit(pset.getParameter<double>("maxCSCHit")),
-    nintCSCHit(pset.getParameter<int>("nintCSCHit")),
-      //
-    minRPCHit(pset.getParameter<double>("minRPCHit")),
-    maxRPCHit(pset.getParameter<double>("maxRPCHit")),
-    nintRPCHit(pset.getParameter<int>("nintRPCHit")),
-      //
-    minLayers(pset.getParameter<double>("minLayers")),
-    maxLayers(pset.getParameter<double>("maxLayers")),
-    nintLayers(pset.getParameter<int>("nintLayers")),
-    minPixels(pset.getParameter<double>("minPixels")),
-    maxPixels(pset.getParameter<double>("maxPixels")),
-    nintPixels(pset.getParameter<int>("nintPixels")),
-    minPhi(pset.getParameter<double>("minPhi")),
-    maxPhi(pset.getParameter<double>("maxPhi")),
-    nintPhi(pset.getParameter<int>("nintPhi")),
-    minDxy(pset.getParameter<double>("minDxy")),
-    maxDxy(pset.getParameter<double>("maxDxy")),
-    nintDxy(pset.getParameter<int>("nintDxy")),
-    minDz(pset.getParameter<double>("minDz")),
-    maxDz(pset.getParameter<double>("maxDz")),
-    nintDz(pset.getParameter<int>("nintDz")),
-    minRpos(pset.getParameter<double>("minRpos")),
-    maxRpos(pset.getParameter<double>("maxRpos")),
-    nintRpos(pset.getParameter<int>("nintRpos")),
-    minZpos(pset.getParameter<double>("minZpos")),
-    maxZpos(pset.getParameter<double>("maxZpos")),
-    nintZpos(pset.getParameter<int>("nintZpos")),
-    minPU(pset.getParameter<double>("minPU")),
-    maxPU(pset.getParameter<double>("maxPU")),
-    nintPU(pset.getParameter<int>("nintPU")),
-    //
-    ptRes_rangeMin(pset.getParameter<double>("ptRes_rangeMin")),
-    ptRes_rangeMax(pset.getParameter<double>("ptRes_rangeMax")),
-    ptRes_nbin(pset.getParameter<int>("ptRes_nbin")),
-    etaRes_rangeMin(pset.getParameter<double>("etaRes_rangeMin")),
-    etaRes_rangeMax(pset.getParameter<double>("etaRes_rangeMax")),
-    etaRes_nbin(pset.getParameter<int>("etaRes_nbin")),
-    phiRes_rangeMin(pset.getParameter<double>("phiRes_rangeMin")),
-    phiRes_rangeMax(pset.getParameter<double>("phiRes_rangeMax")),
-    phiRes_nbin(pset.getParameter<int>("phiRes_nbin")),
-    cotThetaRes_rangeMin(pset.getParameter<double>("cotThetaRes_rangeMin")),
-    cotThetaRes_rangeMax(pset.getParameter<double>("cotThetaRes_rangeMax")),
-    cotThetaRes_nbin(pset.getParameter<int>("cotThetaRes_nbin")),
-    dxyRes_rangeMin(pset.getParameter<double>("dxyRes_rangeMin")),
-    dxyRes_rangeMax(pset.getParameter<double>("dxyRes_rangeMax")),
-    dxyRes_nbin(pset.getParameter<int>("dxyRes_nbin")),
-    dzRes_rangeMin(pset.getParameter<double>("dzRes_rangeMin")),
-    dzRes_rangeMax(pset.getParameter<double>("dzRes_rangeMax")),
-    dzRes_nbin(pset.getParameter<int>("dzRes_nbin")),
-    do_TRKhitsPlots(pset.getParameter<bool>("do_TRKhitsPlots")),
-    do_MUOhitsPlots(pset.getParameter<bool>("do_MUOhitsPlots")),
-    //
+    muonHistoParameters(pset.getParameter<edm::ParameterSet>("muonHistoParameters")),
     ignoremissingtkcollection_(pset.getUntrackedParameter<bool>("ignoremissingtrackcollection",false))
-    //
+
     {
       dbe_ = edm::Service<DQMStore>().operator->();
 
+      minEta = muonHistoParameters.getParameter<double>("minEta");
+      maxEta = muonHistoParameters.getParameter<double>("maxEta");
+      nintEta = muonHistoParameters.getParameter<int>("nintEta");
+      useFabsEta = muonHistoParameters.getParameter<bool>("useFabsEta");
+      minPt = muonHistoParameters.getParameter<double>("minPt");
+      maxPt = muonHistoParameters.getParameter<double>("maxPt");
+      nintPt = muonHistoParameters.getParameter<int>("nintPt");
+      useLogPt = muonHistoParameters.getUntrackedParameter<bool>("useLogPt",false);
+      useInvPt = muonHistoParameters.getParameter<bool>("useInvPt");
+      minNHit = muonHistoParameters.getParameter<double>("minNHit");
+      maxNHit = muonHistoParameters.getParameter<double>("maxNHit");
+      nintNHit = muonHistoParameters.getParameter<int>("nintNHit");
+      //
+      minDTHit = muonHistoParameters.getParameter<double>("minDTHit");
+      maxDTHit = muonHistoParameters.getParameter<double>("maxDTHit");
+      nintDTHit = muonHistoParameters.getParameter<int>("nintDTHit");
+      //
+      minCSCHit = muonHistoParameters.getParameter<double>("minCSCHit");
+      maxCSCHit = muonHistoParameters.getParameter<double>("maxCSCHit");
+      nintCSCHit = muonHistoParameters.getParameter<int>("nintCSCHit");
+      //
+      minRPCHit = muonHistoParameters.getParameter<double>("minRPCHit");
+      maxRPCHit = muonHistoParameters.getParameter<double>("maxRPCHit");
+      nintRPCHit = muonHistoParameters.getParameter<int>("nintRPCHit");
+      //
+      minLayers = muonHistoParameters.getParameter<double>("minLayers");
+      maxLayers = muonHistoParameters.getParameter<double>("maxLayers");
+      nintLayers = muonHistoParameters.getParameter<int>("nintLayers");
+      minPixels = muonHistoParameters.getParameter<double>("minPixels");
+      maxPixels = muonHistoParameters.getParameter<double>("maxPixels");
+      nintPixels = muonHistoParameters.getParameter<int>("nintPixels");
+      minPhi = muonHistoParameters.getParameter<double>("minPhi");
+      maxPhi = muonHistoParameters.getParameter<double>("maxPhi");
+      nintPhi = muonHistoParameters.getParameter<int>("nintPhi");
+      minDxy = muonHistoParameters.getParameter<double>("minDxy");
+      maxDxy = muonHistoParameters.getParameter<double>("maxDxy");
+      nintDxy = muonHistoParameters.getParameter<int>("nintDxy");
+      minDz = muonHistoParameters.getParameter<double>("minDz");
+      maxDz = muonHistoParameters.getParameter<double>("maxDz");
+      nintDz = muonHistoParameters.getParameter<int>("nintDz");
+      minRpos = muonHistoParameters.getParameter<double>("minRpos");
+      maxRpos = muonHistoParameters.getParameter<double>("maxRpos");
+      nintRpos = muonHistoParameters.getParameter<int>("nintRpos");
+      minZpos = muonHistoParameters.getParameter<double>("minZpos");
+      maxZpos = muonHistoParameters.getParameter<double>("maxZpos");
+      nintZpos = muonHistoParameters.getParameter<int>("nintZpos");
+      minPU = muonHistoParameters.getParameter<double>("minPU");
+      maxPU = muonHistoParameters.getParameter<double>("maxPU");
+      nintPU = muonHistoParameters.getParameter<int>("nintPU");
+      //
+      ptRes_rangeMin = muonHistoParameters.getParameter<double>("ptRes_rangeMin");
+      ptRes_rangeMax = muonHistoParameters.getParameter<double>("ptRes_rangeMax");
+      ptRes_nbin = muonHistoParameters.getParameter<int>("ptRes_nbin");
+      etaRes_rangeMin = muonHistoParameters.getParameter<double>("etaRes_rangeMin");
+      etaRes_rangeMax = muonHistoParameters.getParameter<double>("etaRes_rangeMax");
+      etaRes_nbin = muonHistoParameters.getParameter<int>("etaRes_nbin");
+      phiRes_rangeMin = muonHistoParameters.getParameter<double>("phiRes_rangeMin");
+      phiRes_rangeMax = muonHistoParameters.getParameter<double>("phiRes_rangeMax");
+      phiRes_nbin = muonHistoParameters.getParameter<int>("phiRes_nbin");
+      cotThetaRes_rangeMin = muonHistoParameters.getParameter<double>("cotThetaRes_rangeMin");
+      cotThetaRes_rangeMax = muonHistoParameters.getParameter<double>("cotThetaRes_rangeMax");
+      cotThetaRes_nbin = muonHistoParameters.getParameter<int>("cotThetaRes_nbin");
+      dxyRes_rangeMin = muonHistoParameters.getParameter<double>("dxyRes_rangeMin");
+      dxyRes_rangeMax = muonHistoParameters.getParameter<double>("dxyRes_rangeMax");
+      dxyRes_nbin = muonHistoParameters.getParameter<int>("dxyRes_nbin");
+      dzRes_rangeMin = muonHistoParameters.getParameter<double>("dzRes_rangeMin");
+      dzRes_rangeMax = muonHistoParameters.getParameter<double>("dzRes_rangeMax");
+      dzRes_nbin = muonHistoParameters.getParameter<int>("dzRes_nbin");
+      //****
+      usetracker = muonHistoParameters.getParameter<bool>("usetracker");
+      usemuon = muonHistoParameters.getParameter<bool>("usemuon");
+      //****
+      do_TRKhitsPlots = muonHistoParameters.getParameter<bool>("do_TRKhitsPlots");
+      do_MUOhitsPlots = muonHistoParameters.getParameter<bool>("do_MUOhitsPlots");
+      
       if (useLogPt) {
         minPt=log10(std::max(0.01,minPt));
 	maxPt=log10(maxPt);
@@ -232,8 +234,6 @@ class MuonTrackValidatorBase {
   DQMStore* dbe_;
 
   std::vector<edm::InputTag> label;
-  bool usetracker;
-  bool usemuon;
   edm::InputTag bsSrc;
   edm::InputTag label_tp_effic;
   edm::InputTag label_tp_fake;
@@ -247,6 +247,8 @@ class MuonTrackValidatorBase {
   edm::EDGetTokenT<TrackingParticleCollection> tp_fake_Token;
   edm::EDGetTokenT<std::vector<PileupSummaryInfo> > pileupinfo_Token;
   edm::ESHandle<MagneticField> theMF;
+
+  edm::ParameterSet muonHistoParameters;
 
   double minEta, maxEta;  int nintEta;  bool useFabsEta;
   double minPt, maxPt;  int nintPt;  bool useLogPt;  bool useInvPt; 
@@ -270,6 +272,7 @@ class MuonTrackValidatorBase {
   double dxyRes_rangeMin,dxyRes_rangeMax; int dxyRes_nbin;
   double dzRes_rangeMin,dzRes_rangeMax; int dzRes_nbin;
       
+  bool usetracker, usemuon;
   bool do_TRKhitsPlots, do_MUOhitsPlots;
   bool ignoremissingtkcollection_;
 

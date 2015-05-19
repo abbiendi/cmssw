@@ -12,10 +12,11 @@ muonTrackValidator = cms.EDAnalyzer("MuonTrackValidator",
     label_tp_effic = cms.InputTag("mix","MergedTrackTruth"),
     label_tp_fake = cms.InputTag("mix","MergedTrackTruth"),
     label_pileupinfo = cms.InputTag("addPileupInfo"),
+    #
     # input reco::Track collection
     label = cms.VInputTag(cms.InputTag("globalMuons")),
-    #
     beamSpot = cms.InputTag("offlineBeamSpot"),
+    #
     # set true if you do not want that MTV launch an exception
     # if the track collection is missing (e.g. HLT):
     ignoremissingtrackcollection=cms.untracked.bool(False),
@@ -34,12 +35,12 @@ muonTrackValidator = cms.EDAnalyzer("MuonTrackValidator",
     associatormap = cms.InputTag("tpToMuonTrackAssociation"),
     #
     # BiDirectional Logic for RecoToSim association corrects the Fake rates (counting ghosts and split tracks as fakes)
-    #  setting it to False the ghost and split tracks are counted as good ones (old setting of Muon Validation up to CMSSW_3_6_0_pre4)
+    #  setting it to False the ghost and split tracks are counted as good ones
     #  the default setting is True: should NOT be changed !
     BiDirectional_RecoToSim_association = cms.bool(True),
     #
     # Output File / Directory
-    outputFile = cms.string(''),           
+    outputFile = cms.string(''),
     dirName = cms.string('Muons/RecoMuonV/MultiTrack/'),
     #
     # Parameters defining which histograms to make and their attributes (nbins, range: min, max...)
