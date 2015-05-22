@@ -234,11 +234,24 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
 				     << "Analyzing new event" << "\n"
 				     << "====================================================\n" << "\n";
 
+  edm::Handle< std::vector<PileupSummaryInfo> > puinfoH;
+  int PU_NumInteractions(-1);
+
   edm::ESHandle<ParametersDefinerForTP> Lhc_parametersDefinerTP;
   std::unique_ptr<ParametersDefinerForTP> Cosmic_parametersDefinerTP;
 
   if(parametersDefiner=="LhcParametersDefinerForTP") {
     setup.get<TrackAssociatorRecord>().get(parametersDefiner, Lhc_parametersDefinerTP);
+
+    // PileupSummaryInfo is contained only in collision events
+    event.getByToken(pileupinfo_Token,puinfoH);
+    for (std::vector<PileupSummaryInfo>::const_iterator puInfoIt = puinfoH->begin(); puInfoIt != puinfoH->end(); ++puInfoIt) {
+      if (puInfoIt->getBunchCrossing()==0) {
+	PU_NumInteractions = puInfoIt->getPU_NumInteractions();
+	break;
+      }
+    }
+
   }
   else if(parametersDefiner=="CosmicParametersDefinerForTP") {
     edm::ESHandle<CosmicParametersDefinerForTP>  _Cosmic_parametersDefinerTP;
@@ -269,6 +282,7 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
   event.getByToken(bsSrc_Token,recoBeamSpotHandle);
   reco::BeamSpot bs = *recoBeamSpotHandle;
 
+  /*
   edm::Handle< std::vector<PileupSummaryInfo> > puinfoH;
   event.getByToken(pileupinfo_Token,puinfoH);
   int PU_NumInteractions(-1);
@@ -279,6 +293,7 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
       break;
     }
   }
+  */
 
   std::vector<const reco::TrackToTrackingParticleAssociator*> associator;
   if (UseAssociators) {
