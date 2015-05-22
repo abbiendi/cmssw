@@ -8,12 +8,12 @@ import FWCore.ParameterSet.Config as cms
 #        restoreStateLabel = cms.untracked.string("randomEngineStateProducer"),
 #)
 
-from Validation.Configuration.globalValidation_cff import *
+from Validation.Configuration.globalValidationCosmics_cff import *
 
 from Validation.RecoMuon.muonValidation_cff import *
 
-prevalidation = cms.Sequence(globalPrevalidationCosmics)
+prevalidationCosmics = cms.Sequence(globalPrevalidationCosmics)
 
-validation = cms.Sequence(cms.SequencePlaceholder("mix")
-                          *globalValidationCosmics
-                          )
+validationCosmics = cms.Sequence(cms.SequencePlaceholder("mix")
+                                 *globalValidationCosmics
+                                 )
