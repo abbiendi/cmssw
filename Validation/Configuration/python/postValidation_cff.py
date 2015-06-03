@@ -56,3 +56,8 @@ postValidation_fastsim = cms.Sequence(
 postValidation_gen = cms.Sequence(
     EventGeneratorPostProcessor
 )
+
+postValidationCosmics = cms.Sequence(
+#      recoMuonPostProcessors
+      postProcessorMuonMultiTrack
+)
