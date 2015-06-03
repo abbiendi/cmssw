@@ -336,7 +336,7 @@ class MuonTrackValidatorBase {
   //resolution of track params: to be used with fitslicesytool
   std::vector<MonitorElement*> dxyres_vs_eta, ptres_vs_eta, dzres_vs_eta, phires_vs_eta, thetaCotres_vs_eta;
   std::vector<MonitorElement*> dxyres_vs_pt, ptres_vs_pt, dzres_vs_pt, phires_vs_pt, thetaCotres_vs_pt;
-  std::vector<MonitorElement*> dxyres_vs_pttrue, ptres_vs_pttrue, dzres_vs_pttrue, phires_vs_pttrue, thetaCotres_vs_pttrue;
+  //  std::vector<MonitorElement*> dxyres_vs_pttrue, ptres_vs_pttrue, dzres_vs_pttrue, phires_vs_pttrue, thetaCotres_vs_pttrue;
 
   //pulls of track params vs eta: to be used with fitslicesytool
   std::vector<MonitorElement*> dxypull_vs_eta, ptpull_vs_eta, dzpull_vs_eta, phipull_vs_eta, thetapull_vs_eta;

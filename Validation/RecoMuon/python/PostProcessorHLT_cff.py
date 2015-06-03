@@ -2,13 +2,13 @@
 #
 import FWCore.ParameterSet.Config as cms
 
-from Validation.RecoMuon.PostProcessor_cff import postProcessorMuonMultiTrack
-postProcessorMuonMultiTrackHLT = postProcessorMuonMultiTrack.clone()
-postProcessorMuonMultiTrackHLT.subDirs = cms.untracked.vstring("HLT/Muon/MultiTrack/*")
+from Validation.RecoMuon.PostProcessor_cff import postProcessorMuonTrack
+postProcessorMuonTrackHLT = postProcessorMuonTrack.clone()
+postProcessorMuonTrackHLT.subDirs = cms.untracked.vstring("HLT/Muon/MuonTrack/*")
 
-postProcessorMuonMultiTrackHLTComp = cms.EDAnalyzer(
+postProcessorMuonTrackHLTComp = cms.EDAnalyzer(
     "DQMGenericClient",
-    subDirs = cms.untracked.vstring("HLT/Muon/MultiTrack/"), 
+    subDirs = cms.untracked.vstring("HLT/Muon/MuonTrack/"), 
     efficiency = cms.vstring(
     "Eff_L3Tk_Eta_mabh 'Eff_{L3,TK} vs #eta' hltL3Muons/effic_vs_eta hltL3TkFromL2/effic_vs_eta",
     "Eff_L3Tk_Pt_mabh 'Eff_{L3,TK} vs p_{T}' hltL3Muons/effic_vs_pt hltL3TkFromL2/effic_vs_pt",
@@ -22,8 +22,8 @@ postProcessorMuonMultiTrackHLTComp = cms.EDAnalyzer(
     )
 
 recoMuonPostProcessorsHLT = cms.Sequence(
-    postProcessorMuonMultiTrackHLT
-    *postProcessorMuonMultiTrackHLTComp
+    postProcessorMuonTrackHLT
+    *postProcessorMuonTrackHLTComp
     )
 
 recoMuonPostProcessorsHLTFastSim = cms.Sequence(

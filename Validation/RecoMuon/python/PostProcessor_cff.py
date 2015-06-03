@@ -1,8 +1,8 @@
 # post-processors for reco Muon track validation in FullSim and FastSim
 #
 import FWCore.ParameterSet.Config as cms
-postProcessorMuonMultiTrack = cms.EDAnalyzer("DQMGenericClient",
-    subDirs = cms.untracked.vstring("Muons/RecoMuonV/MultiTrack/*"),
+postProcessorMuonTrack = cms.EDAnalyzer("DQMGenericClient",
+    subDirs = cms.untracked.vstring("Muons/RecoMuonV/MuonTrack/*"),
     efficiency = cms.vstring(
         "effic_vs_eta 'Efficiency vs #eta' num_assoSimToReco_eta num_simul_eta",
         "effic_vs_pt 'Efficiency vs p_{T}' num_assoSimToReco_pT num_simul_pT",
@@ -24,11 +24,12 @@ postProcessorMuonMultiTrack = cms.EDAnalyzer("DQMGenericClient",
         
         "chargeMisId_vs_eta 'Charge MisID rate vs #eta' num_chargemisid_eta num_assoSimToReco_eta", 
         "chargeMisId_vs_pt 'Charge MisID rate vs p_{T}' num_chargemisid_pT num_assoSimToReco_pT", 
-        "chargeMisId_vs_hit 'Charge MisID rate vs number of Hits' num_chargemisid_hit num_assoSimToReco_hit", 
         "chargeMisId_vs_phi 'Charge MisID rate vs #phi' num_chargemisid_phi num_assoSimToReco_phi",
         "chargeMisId_vs_dxy 'Charge MisID rate vs dxy' num_chargemisid_dxy num_assoSimToReco_dxy", 
         "chargeMisId_vs_dz 'Charge MisID rate vs dz' num_chargemisid_dz num_assoSimToReco_dz",
-        "chargeMisId_vs_pu 'Charge MisID rate vs number of pile-up interactions' num_chargemisid_pu num_assoSimToReco_pu"
+        "chargeMisId_vs_pu 'Charge MisID rate vs number of pile-up interactions' num_chargemisid_pu num_assoSimToReco_pu",
+        # charge MisId determined vs number of RecHits !
+        "chargeMisId_vs_hit 'Charge MisID rate vs number of RecHits' num_chargemisid_hit num_assoRecoToSim_hit"
     ),
     profile = cms.untracked.vstring(
         "chi2_vs_eta_prof 'mean #chi^{2} vs #eta' chi2_vs_eta", 
@@ -49,36 +50,31 @@ postProcessorMuonMultiTrack = cms.EDAnalyzer("DQMGenericClient",
         "dxypull_vs_eta 'dxy Pull vs #eta' dxypull_vs_eta",
         "dxyres_vs_eta 'dxy Residual vs #eta' dxyres_vs_eta",
         "dxyres_vs_pt 'dxy Residual vs p_{T}' dxyres_vs_pt",
-        "dxyres_vs_pttrue 'dxy Residual vs p_{T}' dxyres_vs_pttrue",
         "dzpull_vs_eta 'dz Pull vs #eta' dzpull_vs_eta",
         "dzres_vs_eta 'dz Residual vs #eta' dzres_vs_eta",
         "dzres_vs_pt 'dz Residual vs p_{T}' dzres_vs_pt",
-        "dzres_vs_pttrue 'dz Residual vs p_{T}' dzres_vs_pttrue",
         "phipull_vs_eta '#phi Pull vs #eta' phipull_vs_eta",
         "phipull_vs_phi '#phi Pull vs #phi' phipull_vs_phi",
         "phires_vs_eta '#phi Residual vs #eta' phires_vs_eta",
         "phires_vs_phi '#phi Residual vs #phi' phires_vs_phi",
         "phires_vs_pt '#phi Residual vs p_{T}' phires_vs_pt",
-        "phires_vs_pttrue '#phi Residual vs p_{T}' phires_vs_pttrue",
         "thetapull_vs_eta '#theta Pull vs #eta' thetapull_vs_eta",
-        "thetapull_vs_phi '#theta Pull vs #phi' thetapull_vs_phi"
+        "thetapull_vs_phi '#theta Pull vs #phi' thetapull_vs_phi",
         "thetaCotres_vs_eta 'cot(#theta) Residual vs #eta' thetaCotres_vs_eta",
         "thetaCotres_vs_pt 'cot(#theta)) Residual vs p_{T}' thetaCotres_vs_pt",
-        "thetaCotres_vs_pttrue 'cot(#theta)) Residual vs p_{T}' thetaCotres_vs_pttrue",
         "ptpull_vs_eta 'p_{T} Pull vs #eta' ptpull_vs_eta",
         "ptpull_vs_phi 'p_{T} Pull vs #phi' ptpull_vs_phi",
         "ptres_vs_eta 'p_{T} Relative Residual vs #eta' ptres_vs_eta",
         "ptres_vs_phi 'p_{T} Relative Residual vs #phi' ptres_vs_phi",
         "ptres_vs_pt 'p_{T} Relative Residual vs p_{T}' ptres_vs_pt",
-        "ptres_vs_pttrue 'p_{T} Relative Residual vs p_{T}' ptres_vs_pttrue",
         "etares_vs_eta '#eta Residual vs #eta' etares_vs_eta"
     ),
     outputFileName = cms.untracked.string("")
 )
 
 
-postProcessorMuonMultiTrackComp = cms.EDAnalyzer("DQMGenericClient",
-    subDirs = cms.untracked.vstring("Muons/RecoMuonV/MultiTrack/"),
+postProcessorMuonTrackComp = cms.EDAnalyzer("DQMGenericClient",
+    subDirs = cms.untracked.vstring("Muons/RecoMuonV/MuonTrack/"),
     efficiency = cms.vstring(
     "Eff_GlbTk_Eta_mabh 'Eff_{GLB,TK} vs #eta' extractedGlobalMuons/effic_vs_eta probeTrks/effic_vs_eta",
     "Eff_GlbTk_Pt_mabh 'Eff_{GLB,TK} vs p_{T}' extractedGlobalMuons/effic_vs_pt probeTrks/effic_vs_pt",
@@ -91,8 +87,8 @@ postProcessorMuonMultiTrackComp = cms.EDAnalyzer("DQMGenericClient",
     outputFileName = cms.untracked.string("")
 )
 
-postProcessorMuonMultiTrackCompFS = cms.EDAnalyzer("DQMGenericClient",
-    subDirs = cms.untracked.vstring("Muons/RecoMuonV/MultiTrack/"),
+postProcessorMuonTrackCompFS = cms.EDAnalyzer("DQMGenericClient",
+    subDirs = cms.untracked.vstring("Muons/RecoMuonV/MuonTrack/"),
     efficiency = cms.vstring(
     "Eff_GlbTk_Eta_mabh 'Eff_{GLB,TK} vs #eta' extractedGlobalMuons/effic_vs_eta probeTrks/effic_vs_eta",
     "Eff_GlbTk_Pt_mabh 'Eff_{GLB,TK} vs p_{T}' extractedGlobalMuons/effic_vs_pt probeTrks/effic_vs_pt",
@@ -193,16 +189,16 @@ postProcessorRecoMuonCompPF = cms.EDAnalyzer(
         
 
 recoMuonPostProcessors = cms.Sequence(
-    postProcessorMuonMultiTrack
+    postProcessorMuonTrack
     *postProcessorRecoMuon_Trk*postProcessorRecoMuon_Sta*postProcessorRecoMuon_Glb*postProcessorRecoMuon_Tgt
     #    *postProcessorRecoMuon_TrkPF*postProcessorRecoMuon_StaPF*postProcessorRecoMuon_GlbPF
-    *postProcessorMuonMultiTrackComp*postProcessorRecoMuonComp
+    *postProcessorMuonTrackComp*postProcessorRecoMuonComp
     #    *postProcessorRecoMuonCompPF
     )
 
 recoMuonPostProcessorsFastSim = cms.Sequence(
-    postProcessorMuonMultiTrack
+    postProcessorMuonTrack
     *postProcessorRecoMuon_Trk*postProcessorRecoMuon_Sta*postProcessorRecoMuon_Glb*postProcessorRecoMuon_Tgt
     *postProcessorRecoMuon_TrkPF*postProcessorRecoMuon_StaPF*postProcessorRecoMuon_GlbPF
-    *postProcessorMuonMultiTrackComp*postProcessorRecoMuonComp*postProcessorRecoMuonCompPF
+    *postProcessorMuonTrackComp*postProcessorRecoMuonComp*postProcessorRecoMuonCompPF
     )

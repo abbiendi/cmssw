@@ -48,9 +48,6 @@ void MuonTrackValidator::bookHistograms(DQMStore::IBooker& ibooker, edm::Run con
       std::replace(dirName.begin(), dirName.end(), ':', '_');
       ibooker.setCurrentFolder(dirName.c_str());
 
-      ibooker.cd();
-      ibooker.setCurrentFolder(dirName.c_str());
-
       h_tracks.push_back( ibooker.book1D("Ntracks","Number of reconstructed tracks",100,-0.5,99.5) );
       h_fakes.push_back( ibooker.book1D("Nfakes","Number of fake reco tracks",20,-0.5,19.5) );
       h_charge.push_back( ibooker.book1D("Ncharge","track charge",3,-1.5,1.5) );
@@ -73,11 +70,11 @@ void MuonTrackValidator::bookHistograms(DQMStore::IBooker& ibooker, edm::Run con
       h_simulphi.push_back( ibooker.book1D("num_simul_phi","N of simulated tracks vs phi",nintPhi,minPhi,maxPhi) );
       h_misidphi.push_back( ibooker.book1D("num_chargemisid_phi","N of associated (simToReco) tracks with charge misID vs phi",nintPhi,minPhi,maxPhi) );
 
-      h_recohit.push_back( ibooker.book1D("num_reco_hit","N of reco track vs hit",nintNHit,minNHit,maxNHit) );
-      h_assochit.push_back( ibooker.book1D("num_assoSimToReco_hit","N of associated tracks (simToReco) vs hit",nintNHit,minNHit,maxNHit) );
-      h_assoc2hit.push_back( ibooker.book1D("num_assoRecoToSim_hit","N of associated (recoToSim) tracks vs hit",nintNHit,minNHit,maxNHit) );
-      h_simulhit.push_back( ibooker.book1D("num_simul_hit","N of simulated tracks vs hit",nintNHit,minNHit,maxNHit) );
-      h_misidhit.push_back( ibooker.book1D("num_chargemisid_hit","N of associated (simToReco) tracks with charge misID vs hit",nintNHit,minNHit,maxNHit) );
+      h_recohit.push_back( ibooker.book1D("num_reco_hit","N of reco tracks vs N SimHits",nintNHit,minNHit,maxNHit) );
+      h_assochit.push_back( ibooker.book1D("num_assoSimToReco_hit","N of associated tracks (simToReco) vs N SimHits",nintNHit,minNHit,maxNHit) );
+      h_assoc2hit.push_back( ibooker.book1D("num_assoRecoToSim_hit","N of associated (recoToSim) tracks vs N Rechits",nintNHit,minNHit,maxNHit) );
+      h_simulhit.push_back( ibooker.book1D("num_simul_hit","N of simulated tracks vs N SimHits",nintNHit,minNHit,maxNHit) );
+      h_misidhit.push_back( ibooker.book1D("num_chargemisid_hit","N of associated (recoToSim) tracks with charge misID vs N RecHits",nintNHit,minNHit,maxNHit) );
 
       h_recodxy.push_back( ibooker.book1D("num_reco_dxy","N of reco track vs dxy",nintDxy,minDxy,maxDxy) );
       h_assocdxy.push_back( ibooker.book1D("num_assoSimToReco_dxy","N of associated tracks (simToReco) vs dxy",nintDxy,minDxy,maxDxy) );
@@ -134,9 +131,9 @@ void MuonTrackValidator::bookHistograms(DQMStore::IBooker& ibooker, edm::Run con
 					    nintEta,minEta,maxEta, ptRes_nbin, ptRes_rangeMin, ptRes_rangeMax));
       ptres_vs_phi.push_back( ibooker.book2D("ptres_vs_phi","p_{T} Relative Residual vs #phi",
 					     nintPhi,minPhi,maxPhi, ptRes_nbin, ptRes_rangeMin, ptRes_rangeMax));
-      ptres_vs_pt.push_back(ibooker.book2D("ptres_vs_pt","p_{T} Relative Residual vs p_{T}^{REC}",
-					   nintPt,minPt,maxPt, ptRes_nbin, ptRes_rangeMin, ptRes_rangeMax));
-      ptres_vs_pttrue.push_back(ibooker.book2D("ptres_vs_pttrue","p_{T} Relative Residual vs p_{T}^{TRUE}",
+      //      ptres_vs_pt.push_back(ibooker.book2D("ptres_vs_pt","p_{T} Relative Residual vs p_{T}^{REC}",
+      //				   nintPt,minPt,maxPt, ptRes_nbin, ptRes_rangeMin, ptRes_rangeMax));
+      ptres_vs_pt.push_back(ibooker.book2D("ptres_vs_pt","p_{T} Relative Residual vs p_{T}^{TRUE}",
 					   nintPt,minPt,maxPt, ptRes_nbin, ptRes_rangeMin, ptRes_rangeMax));
       h_ptpull.push_back( ibooker.book1D("ptpull", "p_{T} Pull", 100, -10., 10.) );
       ptpull_vs_eta.push_back(ibooker.book2D("ptpull_vs_eta","p_{T} Pull vs #eta",nintEta,minEta,maxEta,100,-10.,10.));
@@ -149,9 +146,9 @@ void MuonTrackValidator::bookHistograms(DQMStore::IBooker& ibooker, edm::Run con
 
       thetaCotres_vs_eta.push_back(ibooker.book2D("thetaCotres_vs_eta","cot(#theta) Residual vs #eta",
 						  nintEta,minEta,maxEta,cotThetaRes_nbin, cotThetaRes_rangeMin, cotThetaRes_rangeMax));
-      thetaCotres_vs_pt.push_back(ibooker.book2D("thetaCotres_vs_pt","cot(#theta) Residual vs p_{T}^{REC}",
-						 nintPt,minPt,maxPt, cotThetaRes_nbin, cotThetaRes_rangeMin, cotThetaRes_rangeMax));
-      thetaCotres_vs_pttrue.push_back(ibooker.book2D("thetaCotres_vs_pttrue","cot(#theta) Residual vs p_{T}^{TRUE}",
+      //      thetaCotres_vs_pt.push_back(ibooker.book2D("thetaCotres_vs_pt","cot(#theta) Residual vs p_{T}^{REC}",
+      //					 nintPt,minPt,maxPt, cotThetaRes_nbin, cotThetaRes_rangeMin, cotThetaRes_rangeMax));
+      thetaCotres_vs_pt.push_back(ibooker.book2D("thetaCotres_vs_pt","cot(#theta) Residual vs p_{T}^{TRUE}",
 						 nintPt,minPt,maxPt, cotThetaRes_nbin, cotThetaRes_rangeMin, cotThetaRes_rangeMax));
       h_thetapull.push_back( ibooker.book1D("thetapull","#theta Pull",100,-10.,10.) );
       thetapull_vs_eta.push_back(ibooker.book2D("thetapull_vs_eta","#theta Pull vs #eta",nintEta,minEta,maxEta,100,-10,10));
@@ -159,9 +156,9 @@ void MuonTrackValidator::bookHistograms(DQMStore::IBooker& ibooker, edm::Run con
 
       phires_vs_eta.push_back(ibooker.book2D("phires_vs_eta","#phi Residual vs #eta",
 					     nintEta,minEta,maxEta, phiRes_nbin, phiRes_rangeMin, phiRes_rangeMax));
-      phires_vs_pt.push_back(ibooker.book2D("phires_vs_pt","#phi Residual vs p_{T}^{REC}",
-					    nintPt,minPt,maxPt, phiRes_nbin, phiRes_rangeMin, phiRes_rangeMax));
-      phires_vs_pttrue.push_back(ibooker.book2D("phires_vs_pttrue","#phi Residual vs p_{T}^{TRUE}",
+      //      phires_vs_pt.push_back(ibooker.book2D("phires_vs_pt","#phi Residual vs p_{T}^{REC}",
+      //				    nintPt,minPt,maxPt, phiRes_nbin, phiRes_rangeMin, phiRes_rangeMax));
+      phires_vs_pt.push_back(ibooker.book2D("phires_vs_pt","#phi Residual vs p_{T}^{TRUE}",
 						nintPt,minPt,maxPt, phiRes_nbin, phiRes_rangeMin, phiRes_rangeMax));
       phires_vs_phi.push_back(ibooker.book2D("phires_vs_phi","#phi Residual vs #phi",
 					     nintPhi,minPhi,maxPhi,phiRes_nbin, phiRes_rangeMin, phiRes_rangeMax));
@@ -171,18 +168,18 @@ void MuonTrackValidator::bookHistograms(DQMStore::IBooker& ibooker, edm::Run con
 
       dxyres_vs_eta.push_back(ibooker.book2D("dxyres_vs_eta","dxy Residual vs #eta",
 					     nintEta,minEta,maxEta,dxyRes_nbin, dxyRes_rangeMin, dxyRes_rangeMax));
-      dxyres_vs_pt.push_back( ibooker.book2D("dxyres_vs_pt","dxy Residual vs p_{T}^{REC}",
-					     nintPt,minPt,maxPt,dxyRes_nbin, dxyRes_rangeMin, dxyRes_rangeMax));
-      dxyres_vs_pttrue.push_back( ibooker.book2D("dxyres_vs_pttrue","dxy Residual vs p_{T}^{TRUE}",
+      //      dxyres_vs_pt.push_back( ibooker.book2D("dxyres_vs_pt","dxy Residual vs p_{T}^{REC}",
+      //				     nintPt,minPt,maxPt,dxyRes_nbin, dxyRes_rangeMin, dxyRes_rangeMax));
+      dxyres_vs_pt.push_back( ibooker.book2D("dxyres_vs_pt","dxy Residual vs p_{T}^{TRUE}",
 						 nintPt,minPt,maxPt,dxyRes_nbin, dxyRes_rangeMin, dxyRes_rangeMax));
       h_dxypull.push_back( ibooker.book1D("dxypull","dxy Pull",100,-10.,10.) );
       dxypull_vs_eta.push_back(ibooker.book2D("dxypull_vs_eta","dxy Pull vs #eta",nintEta,minEta,maxEta,100,-10,10));
 
       dzres_vs_eta.push_back(ibooker.book2D("dzres_vs_eta","dz Residual vs #eta",
 					    nintEta,minEta,maxEta,dzRes_nbin, dzRes_rangeMin, dzRes_rangeMax));
-      dzres_vs_pt.push_back(ibooker.book2D("dzres_vs_pt","dz Residual vs p_{T}^{REC}",
-					   nintPt,minPt,maxPt,dzRes_nbin, dzRes_rangeMin, dzRes_rangeMax));
-      dzres_vs_pttrue.push_back(ibooker.book2D("dzres_vs_pttrue","dz Residual vs p_{T}^{TRUE}",
+      //      dzres_vs_pt.push_back(ibooker.book2D("dzres_vs_pt","dz Residual vs p_{T}^{REC}",
+      //				   nintPt,minPt,maxPt,dzRes_nbin, dzRes_rangeMin, dzRes_rangeMax));
+      dzres_vs_pt.push_back(ibooker.book2D("dzres_vs_pt","dz Residual vs p_{T}^{TRUE}",
 					       nintPt,minPt,maxPt,dzRes_nbin, dzRes_rangeMin, dzRes_rangeMax));
       h_dzpull.push_back( ibooker.book1D("dzpull","dz Pull",100,-10.,10.) );
       dzpull_vs_eta.push_back(ibooker.book2D("dzpull_vs_eta","dz Pull vs #eta",nintEta,minEta,maxEta,100,-10,10));
@@ -214,12 +211,6 @@ void MuonTrackValidator::bookHistograms(DQMStore::IBooker& ibooker, edm::Run con
 	BinLogX(dxyres_vs_pt.back()->getTH2F());
 	BinLogX(dzres_vs_pt.back()->getTH2F());
 	BinLogX(ptres_vs_pt.back()->getTH2F());
-
-	BinLogX(phires_vs_pttrue.back()->getTH2F());
-	BinLogX(thetaCotres_vs_pttrue.back()->getTH2F());
-	BinLogX(dxyres_vs_pttrue.back()->getTH2F());
-	BinLogX(dzres_vs_pttrue.back()->getTH2F());
-	BinLogX(ptres_vs_pttrue.back()->getTH2F());
       }
 
     }   //for (unsigned int www=0;www<label.size();www++)
@@ -446,9 +437,8 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
 	    //assoc_recoTrack = rt.begin()->first.get();
 	    //edm::LogVerbatim("MuonTrackValidator")<<"-----------------------------associated Track #"<<assoc_recoTrack->key(); // cosi' non va !
 	    TP_is_matched = true;
-	    if (assoc_recoTrack->charge() != tpr->charge()) isChargeOK = false;
-
 	    ats++;
+	    if (assoc_recoTrack->charge() != tpr->charge()) isChargeOK = false;
 	    quality = rt.begin()->second;
 	    assoc_recoTrack_NValidHits = assoc_recoTrack->numberOfValidHits();
 	    //	    edm::LogVerbatim("TrackValidator") << "TrackingParticle #" << st
@@ -515,7 +505,7 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
 	  nRecHits_vs_nSimHits[w]->Fill(nSimHits, assoc_recoTrack_NValidHits);
 
 	  // charge misid might be (more?) useful w.r.t. nRecHits - to be considered
-	  if (!isChargeOK) fillPlotNoFlow(h_misidhit[w], nSimHits);
+	  //	  if (!isChargeOK) fillPlotNoFlow(h_misidhit[w], nSimHits);
 	}
 	
 	// histos for efficiency vs PileUp
@@ -540,6 +530,7 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
       int rT = 0;
       for(edm::View<Track>::size_type i=0; i < trackCollection->size(); ++i){
         bool Track_is_matched = false;
+        bool isChargeOK = true;
 	RefToBase<Track> track(trackCollection, i);
 	rT++;
 	
@@ -566,6 +557,7 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
 		  edm::LogVerbatim("MuonTrackValidator")<<"------------------associated TrackingParticle #"<<tpr.key();
 		  Track_is_matched = true;
 		  at++;
+		  if (track->charge() != tpr->charge()) isChargeOK = false;
 		  double Purity = tp.begin()->second;
 		  double Quality = simRecColl[tpr].begin()->second;
 		  edm::LogVerbatim("MuonTrackValidator") << "reco::Track #" << track.key() << " with pt=" << track->pt()
@@ -588,6 +580,7 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
 	      tpr = tp.begin()->first;
 	      Track_is_matched = true;
 	      at++;
+	      if (track->charge() != tpr->charge()) isChargeOK = false;
 	      edm::LogVerbatim("MuonTrackValidator") << "reco::Track #" << track.key() << " with pt=" << track->pt()
 						     << " associated with quality:" << tp.begin()->second <<"\n";
 	    }
@@ -654,6 +647,8 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
 	fillPlotNoFlow(h_recohit[w], nRecHits);  // PROBLEMA (int) ??? (vedi vecchio codice)
 	if (Track_is_matched) {
 	  fillPlotNoFlow(h_assoc2hit[w], nRecHits);
+	  // charge misid w.r.t. nRecHits
+	  if (!isChargeOK) fillPlotNoFlow(h_misidhit[w], nRecHits);
 	}
 
 	// histos for fake rate vs Number of PU interactions
@@ -757,8 +752,8 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
 	
 	//****** e' il relative residual ma normalizzato al ptrec !!! ha senso ? e fatto rispetto alla eta ricostruita ! questi non sono plots data-driven
 	ptres_vs_eta[w]->Fill(xetaRec,ptRelRes);
-	ptres_vs_pt[w]->Fill(xptRec,ptRelRes);
-	ptres_vs_pttrue[w]->Fill(xptSim,ptRelRes);
+	//ptres_vs_pt[w]->Fill(xptRec,ptRelRes);
+	ptres_vs_pt[w]->Fill(xptSim,ptRelRes);
 	ptres_vs_phi[w]->Fill(phiRec,ptRelRes);
 	h_ptpull[w]->Fill(ptPull);
 	ptpull_vs_eta[w]->Fill(xetaRec,ptPull);
@@ -766,29 +761,29 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
 	h_qoverppull[w]->Fill(qoverpPull);
 
 	thetaCotres_vs_eta[w]->Fill(xetaRec, cos(thetaRec)/sin(thetaRec) - cos(thetaSim)/sin(thetaSim));
-	thetaCotres_vs_pt[w]->Fill(xptRec, cos(thetaRec)/sin(thetaRec) - cos(thetaSim)/sin(thetaSim));
-	thetaCotres_vs_pttrue[w]->Fill(xptSim, cos(thetaRec)/sin(thetaRec) - cos(thetaSim)/sin(thetaSim));
+	//thetaCotres_vs_pt[w]->Fill(xptRec, cos(thetaRec)/sin(thetaRec) - cos(thetaSim)/sin(thetaSim));
+	thetaCotres_vs_pt[w]->Fill(xptSim, cos(thetaRec)/sin(thetaRec) - cos(thetaSim)/sin(thetaSim));
 	h_thetapull[w]->Fill(thetaPull);
 	thetapull_vs_eta[w]->Fill(xetaRec,thetaPull);
 	thetapull_vs_phi[w]->Fill(phiRec,thetaPull);
 
 	phires_vs_eta[w]->Fill(xetaRec,phiDiff);
-	phires_vs_pt[w]->Fill(xptRec,phiDiff);
-	phires_vs_pttrue[w]->Fill(xptSim,phiDiff);
+	//phires_vs_pt[w]->Fill(xptRec,phiDiff);
+	phires_vs_pt[w]->Fill(xptSim,phiDiff);
 	phires_vs_phi[w]->Fill(phiRec,phiDiff);
 	h_phipull[w]->Fill(phiPull);
 	phipull_vs_eta[w]->Fill(xetaRec,phiPull);
 	phipull_vs_phi[w]->Fill(phiRec,phiPull);
 
 	dxyres_vs_eta[w]->Fill(xetaRec,dxyRec-dxySim);
-	dxyres_vs_pt[w]->Fill(xptRec,dxyRec-dxySim);
-	dxyres_vs_pttrue[w]->Fill(xptSim,dxyRec-dxySim);
+	//dxyres_vs_pt[w]->Fill(xptRec,dxyRec-dxySim);
+	dxyres_vs_pt[w]->Fill(xptSim,dxyRec-dxySim);
 	h_dxypull[w]->Fill(dxyPull);
 	dxypull_vs_eta[w]->Fill(xetaRec,dxyPull);
 
 	dzres_vs_eta[w]->Fill(xetaRec,dzRec-dzSim);
-	dzres_vs_pt[w]->Fill(xptRec,dzRec-dzSim);
-	dzres_vs_pttrue[w]->Fill(xptSim,dzRec-dzSim);
+	//dzres_vs_pt[w]->Fill(xptRec,dzRec-dzSim);
+	dzres_vs_pt[w]->Fill(xptSim,dzRec-dzSim);
 	h_dzpull[w]->Fill(dzPull);	
 	dzpull_vs_eta[w]->Fill(xetaRec,dzPull);
 
@@ -829,7 +824,7 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
 					       << "dzSim = " << dzSim << "\n";
       } // End of for(edm::View<Track>::size_type i=0; i < trackCollection->size(); ++i){
       
-      if (at!=0) h_tracks[w]->Fill(at);
+      h_tracks[w]->Fill(at);
       h_fakes[w]->Fill(rT-at);
       edm::LogVerbatim("MuonTrackValidator") << "Total Simulated: " << st << "\n"
 					     << "Total Associated (simToReco): " << ats << "\n"

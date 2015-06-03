@@ -41,7 +41,7 @@ muonTrackValidator = cms.EDAnalyzer("MuonTrackValidator",
     #
     # Output File / Directory
     outputFile = cms.string(''),
-    dirName = cms.string('Muons/RecoMuonV/MultiTrack/'),
+    dirName = cms.string('Muons/RecoMuonV/MuonTrack/'),
     #
     # Parameters defining which histograms to make and their attributes (nbins, range: min, max...)
     muonHistoParameters = cms.PSet(defaultMuonHistoParameters)

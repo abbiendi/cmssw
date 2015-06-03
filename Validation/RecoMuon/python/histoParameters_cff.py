@@ -69,32 +69,32 @@ defaultMuonHistoParameters = cms.PSet(
     maxPixels = cms.double(5.5),
     nintPixels = cms.int32(6),
     #
-    ptRes_nbin = cms.int32(120),       # passo da 100 a 120   # forse ne bastano 60 direi !!!                       
-    ptRes_rangeMin = cms.double(-0.3),    # TRK ha -0.1 / 0.1   con 100 bins 
-    ptRes_rangeMax = cms.double(0.3),    # provo con 120 tra -3. e 3. x STA  n.b. x pt=1000 e' ancora poco...
+    ptRes_nbin = cms.int32(200),       # avevo provato 120 bins da -0.3 a 0.3 : la sigma a 1Tev e' circa 0.15                     
+    ptRes_rangeMin = cms.double(-0.5),    # TRK ha -0.1 / 0.1   con 100 bins 
+    ptRes_rangeMax = cms.double(0.5),    # provo con 120 tra -3. e 3. x STA  n.b. x pt=1000 e' ancora poco...
     #
     # TRK ha 300 bins da -0.01 a +0.01    # muo aveva 100 bins da -0.05 a 0.05
-    phiRes_nbin = cms.int32(100),         # devo allargarla per STA tracks tipo 100 bins da -0.1 a 0.1
+    phiRes_nbin = cms.int32(200),         # devo allargarla per STA tracks tipo 100 bins da -0.1 a 0.1
     phiRes_rangeMin = cms.double(-0.01),
     phiRes_rangeMax = cms.double(0.01),
     #
+    etaRes_nbin = cms.int32(100),               
     etaRes_rangeMin = cms.double(-0.02),     # ok per GLB e TRK limitare a 0.02 !!!  STA invece -0.1 - 0.1
     etaRes_rangeMax = cms.double(0.02),      # TRK ha 200 bins da -0.1 a 0.1 
-    etaRes_nbin = cms.int32(80),               
     #
     #     TRK ha 300 bins  da -0.02 a +0.02     // MUO aveva 120 bins tra -0.01 e 0.01
-    cotThetaRes_nbin = cms.int32(100),           # per STA allargo a -0.05 - 0.05  e 80- bins -> allargo a -0.1 +0.1 e 100 bins                       
+    cotThetaRes_nbin = cms.int32(100),           # per STA allargo a -0.05 - 0.05  e 80- bins -> allargo a -0.1 +0.1 e 100 bins
     cotThetaRes_rangeMin = cms.double(-0.01),
     cotThetaRes_rangeMax = cms.double(0.01),
     #
-    # TRK ha 500 bins tra -0.1 e +0.1     // MUO ora aveva 100 bins da -0.02 a 0.02
-    dxyRes_nbin = cms.int32(100),         # faccio 100 bins tra -0.1 e 0.1 per TRK e GLB   (20 um)
-    dxyRes_rangeMin = cms.double(-0.1),   # per STA provo 100 bins tra -4. e 4.  (400 um) -> non copre -> allargo tra -10 e 10.
-    dxyRes_rangeMax = cms.double(0.1),    
+    # TRK ha 500 bins tra -0.1 e +0.1     // MUO ora ha 100 bins da -0.02 a 0.02
+    dxyRes_nbin = cms.int32(100),         
+    dxyRes_rangeMin = cms.double(-0.02),   # per STA provo 100 bins tra -4. e 4.  (400 um) -> non copre -> allargo tra -10 e 10.
+    dxyRes_rangeMax = cms.double(0.02),    
     # TRK ha 150 bins tra -0.05  e +0.05  // MUO aveva lo stesso ora
-    dzRes_nbin = cms.int32(100),          # cambio: 100 bins tra -0.1 e 0.1   (20 um)                         
-    dzRes_rangeMin = cms.double(-0.1),    # per STA faccio 100 bins tra -4. e 4. -> non copre -> allargo tra -25 e 25.
-    dzRes_rangeMax = cms.double(0.1)
+    dzRes_nbin = cms.int32(100),           # riduco a 100 bins                       
+    dzRes_rangeMin = cms.double(-0.05),    # per STA faccio 100 bins tra -4. e 4. -> non copre -> allargo tra -25 e 25.
+    dzRes_rangeMax = cms.double(0.05)
 )
 
 #####################################################################################
@@ -120,15 +120,15 @@ staMuonHistoParameters.nintDxy = 40
 staMuonHistoParameters.minDxy = -10.
 staMuonHistoParameters.maxDxy = 10.
 ##
-staMuonHistoParameters.ptRes_nbin = 120
-staMuonHistoParameters.ptRes_rangeMin = -3.
-staMuonHistoParameters.ptRes_rangeMax = 3.
+staMuonHistoParameters.ptRes_nbin = 200
+staMuonHistoParameters.ptRes_rangeMin = -1.
+staMuonHistoParameters.ptRes_rangeMax = 5.
 ##
-staMuonHistoParameters.phiRes_nbin = 80
+staMuonHistoParameters.phiRes_nbin = 200
 staMuonHistoParameters.phiRes_rangeMin = -0.1
 staMuonHistoParameters.phiRes_rangeMax = 0.1
 ##
-staMuonHistoParameters.etaRes_nbin = 80
+staMuonHistoParameters.etaRes_nbin = 100
 staMuonHistoParameters.etaRes_rangeMin = -0.1
 staMuonHistoParameters.etaRes_rangeMax = 0.1
 ##
@@ -154,6 +154,12 @@ staSeedMuonHistoParameters.nintCSCHit = 7
 staSeedMuonHistoParameters.maxCSCHit = 6.5
 staSeedMuonHistoParameters.nintRPCHit = 7
 staSeedMuonHistoParameters.maxRPCHit = 6.5
+#####################################################################################
+# STA Upd tracks
+staUpdMuonHistoParameters = staMuonHistoParameters.clone()
+staMuonHistoParameters.dxyRes_nbin = 100
+staMuonHistoParameters.dxyRes_rangeMin = -1.
+staMuonHistoParameters.dxyRes_rangeMax = 1.
 #####################################################################################
 # GLB tracks
 glbMuonHistoParameters =  defaultMuonHistoParameters.clone()

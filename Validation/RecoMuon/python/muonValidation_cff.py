@@ -42,7 +42,7 @@ staMuonTrackVMuonAssoc.muonHistoParameters = staMuonHistoParameters
 staUpdMuonTrackVMuonAssoc = Validation.RecoMuon.MuonTrackValidator_cfi.muonTrackValidator.clone()
 staUpdMuonTrackVMuonAssoc.associatormap = 'tpToStaUpdMuonAssociation'
 staUpdMuonTrackVMuonAssoc.label = ('standAloneMuons:UpdatedAtVtx',)
-staUpdMuonTrackVMuonAssoc.muonHistoParameters = staMuonHistoParameters
+staUpdMuonTrackVMuonAssoc.muonHistoParameters = staUpdMuonHistoParameters
 
 glbMuonTrackVMuonAssoc = Validation.RecoMuon.MuonTrackValidator_cfi.muonTrackValidator.clone()
 glbMuonTrackVMuonAssoc.associatormap = 'tpToGlbMuonAssociation'
@@ -57,7 +57,7 @@ staRefitMuonTrackVMuonAssoc.muonHistoParameters = staMuonHistoParameters
 staRefitUpdMuonTrackVMuonAssoc = Validation.RecoMuon.MuonTrackValidator_cfi.muonTrackValidator.clone()
 staRefitUpdMuonTrackVMuonAssoc.associatormap = 'tpToStaRefitUpdMuonAssociation'
 staRefitUpdMuonTrackVMuonAssoc.label = ('refittedStandAloneMuons:UpdatedAtVtx',)
-staRefitUpdMuonTrackVMuonAssoc.muonHistoParameters = staMuonHistoParameters
+staRefitUpdMuonTrackVMuonAssoc.muonHistoParameters = staUpdMuonHistoParameters
 
 displacedTrackVMuonAssoc = Validation.RecoMuon.MuonTrackValidator_cfi.muonTrackValidator.clone()
 displacedTrackVMuonAssoc.associatormap = 'tpToDisplacedTrkMuonAssociation'
@@ -91,7 +91,7 @@ staSETMuonTrackVMuonAssoc.muonHistoParameters = staMuonHistoParameters
 staSETUpdMuonTrackVMuonAssoc = Validation.RecoMuon.MuonTrackValidator_cfi.muonTrackValidator.clone()
 staSETUpdMuonTrackVMuonAssoc.associatormap = 'tpToStaSETUpdMuonAssociation'
 staSETUpdMuonTrackVMuonAssoc.label = ('standAloneSETMuons:UpdatedAtVtx',)
-staSETUpdMuonTrackVMuonAssoc.muonHistoParameters = staMuonHistoParameters
+staSETUpdMuonTrackVMuonAssoc.muonHistoParameters = staUpdMuonHistoParameters
 
 glbSETMuonTrackVMuonAssoc = Validation.RecoMuon.MuonTrackValidator_cfi.muonTrackValidator.clone()
 glbSETMuonTrackVMuonAssoc.associatormap = 'tpToGlbSETMuonAssociation'
