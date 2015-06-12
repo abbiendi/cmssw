@@ -157,9 +157,9 @@ staSeedMuonHistoParameters.maxRPCHit = 6.5
 #####################################################################################
 # STA Upd tracks
 staUpdMuonHistoParameters = staMuonHistoParameters.clone()
-staMuonHistoParameters.dxyRes_nbin = 100
-staMuonHistoParameters.dxyRes_rangeMin = -1.
-staMuonHistoParameters.dxyRes_rangeMax = 1.
+staUpdMuonHistoParameters.dxyRes_nbin = 100
+staUpdMuonHistoParameters.dxyRes_rangeMin = -1.
+staUpdMuonHistoParameters.dxyRes_rangeMax = 1.
 #####################################################################################
 # GLB tracks
 glbMuonHistoParameters =  defaultMuonHistoParameters.clone()
