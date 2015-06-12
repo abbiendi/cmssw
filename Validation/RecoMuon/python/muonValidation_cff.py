@@ -46,7 +46,7 @@ staUpdMuonTrackVMuonAssoc.muonHistoParameters = staUpdMuonHistoParameters
 
 glbMuonTrackVMuonAssoc = Validation.RecoMuon.MuonTrackValidator_cfi.muonTrackValidator.clone()
 glbMuonTrackVMuonAssoc.associatormap = 'tpToGlbMuonAssociation'
-glbMuonTrackVMuonAssoc.label = ('extractedGlobalMuons',)
+glbMuonTrackVMuonAssoc.label = ('globalMuons',)
 glbMuonTrackVMuonAssoc.muonHistoParameters = glbMuonHistoParameters
 
 staRefitMuonTrackVMuonAssoc = Validation.RecoMuon.MuonTrackValidator_cfi.muonTrackValidator.clone()
@@ -169,7 +169,7 @@ muonValidation_seq = cms.Sequence(
     +seedsOfSTAmuons_seq + tpToStaSeedAssociation + staSeedTrackVMuonAssoc
     +tpToStaMuonAssociation + staMuonTrackVMuonAssoc
     +tpToStaUpdMuonAssociation + staUpdMuonTrackVMuonAssoc
-    +extractedMuonTracks_seq + tpToGlbMuonAssociation + glbMuonTrackVMuonAssoc
+    + tpToGlbMuonAssociation + glbMuonTrackVMuonAssoc
 )
 
 muonValidationTEV_seq = cms.Sequence(

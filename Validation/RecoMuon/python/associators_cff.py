@@ -15,7 +15,8 @@ onlineTrackAssociatorByHits.ThreeHitTracksAreSpecial = False
 # select probeTracks from generalTracks
 import PhysicsTools.RecoAlgos.recoTrackSelector_cfi
 probeTracks = PhysicsTools.RecoAlgos.recoTrackSelector_cfi.recoTrackSelector.clone()
-probeTracks.quality = cms.vstring('highPurity')
+#probeTracks.quality = cms.vstring('highPurity')
+#probeTracks.quality = cms.vstring('loose'),
 probeTracks.tip = 3.5
 probeTracks.lip = 30.
 probeTracks.ptMin = 4.0
@@ -34,15 +35,6 @@ tpToTkmuTrackAssociation = cms.EDProducer('TrackAssociatorEDProducer',
 )
 
 #
-# Configuration for Muon track extractor
-#
-import SimMuon.MCTruth.MuonTrackProducer_cfi
-extractedGlobalMuons = SimMuon.MCTruth.MuonTrackProducer_cfi.muonTrackProducer.clone()
-extractedGlobalMuons.selectionTags = ('AllGlobalMuons',)
-extractedGlobalMuons.trackType = "globalTrack"
-extractedMuonTracks_seq = cms.Sequence( extractedGlobalMuons )
-
-#
 # Configuration for Seed track extractor
 #
 import SimMuon.MCTruth.SeedToTrackProducer_cfi
@@ -59,19 +51,19 @@ seedsOfDisplacedSTAmuons_seq = cms.Sequence( seedsOfDisplacedSTAmuons )
 #
 import SimMuon.MCTruth.MuonAssociatorByHits_cfi
 MABH = SimMuon.MCTruth.MuonAssociatorByHits_cfi.muonAssociatorByHits.clone()
-MABH.EfficiencyCut_track = 0.5
-MABH.PurityCut_track = 0.75
-MABH.EfficiencyCut_muon = 0.5
-MABH.PurityCut_muon = 0.75
-MABH.includeZeroHitMuons = False
-#
-# DEFAULTS
+# DEFAULTS ###################################
 #    EfficiencyCut_track = cms.double(0.),
 #    PurityCut_track = cms.double(0.),
 #    EfficiencyCut_muon = cms.double(0.),
 #    PurityCut_muon = cms.double(0.),
 #    includeZeroHitMuons = cms.bool(True),
 #    acceptOneStubMatchings = cms.bool(False),
+##############################################
+MABH.EfficiencyCut_track = 0.5
+MABH.PurityCut_track = 0.75
+MABH.EfficiencyCut_muon = 0.5
+MABH.PurityCut_muon = 0.75
+MABH.includeZeroHitMuons = False
 
 tpToTkMuonAssociation = MABH.clone()
 #tpToTkMuonAssociation.tracksTag = 'generalTracks'
@@ -95,7 +87,7 @@ tpToStaUpdMuonAssociation.UseTracker = False
 tpToStaUpdMuonAssociation.UseMuon = True
 
 tpToGlbMuonAssociation = MABH.clone()
-tpToGlbMuonAssociation.tracksTag = 'extractedGlobalMuons'
+tpToGlbMuonAssociation.tracksTag = 'globalMuons'
 tpToGlbMuonAssociation.UseTracker = True
 tpToGlbMuonAssociation.UseMuon = True
 
@@ -237,7 +229,7 @@ muonAssociation_seq = cms.Sequence(
     probeTracks_seq+tpToTkMuonAssociation
     +trackAssociatorByHits+tpToTkmuTrackAssociation
     +seedsOfSTAmuons_seq+tpToStaSeedAssociation+tpToStaMuonAssociation+tpToStaUpdMuonAssociation
-    +extractedMuonTracks_seq+tpToGlbMuonAssociation
+    +tpToGlbMuonAssociation
     )
 
 muonAssociationTEV_seq = cms.Sequence(
