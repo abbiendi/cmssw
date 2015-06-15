@@ -58,5 +58,5 @@ postValidation_gen = cms.Sequence(
 )
 
 postValidationCosmics = cms.Sequence(
-      postProcessorMuonMultiTrack
+    postProcessorMuonTrack
 )
