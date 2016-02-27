@@ -16,6 +16,51 @@ muonTPSet = cms.PSet(
     chargedOnly = cms.bool(True)
 )
 
+muonBarrelOnlyTPSet = cms.PSet(
+    src = cms.InputTag("mix", "MergedTrackTruth"),
+    pdgId = cms.vint32(13, -13),
+    tip = cms.double(3.5),
+    lip = cms.double(30.0),
+    minHit = cms.int32(0),
+    ptMin = cms.double(0.9),       # rivedere ?? 
+    minRapidity = cms.double(-0.9),
+    maxRapidity = cms.double(0.9),
+    signalOnly = cms.bool(True),
+    intimeOnly = cms.bool(True),  # discard OOT PU
+    stableOnly = cms.bool(True),  # discard decays in flight from the signal event
+    chargedOnly = cms.bool(True)
+)
+
+muonPlusEndcapOnlyTPSet = cms.PSet(
+    src = cms.InputTag("mix", "MergedTrackTruth"),
+    pdgId = cms.vint32(13, -13),
+    tip = cms.double(3.5),
+    lip = cms.double(30.0),
+    minHit = cms.int32(0),
+    ptMin = cms.double(0.9),       # rivedere ?? 
+    minRapidity = cms.double(1.2),
+    maxRapidity = cms.double(2.4),
+    signalOnly = cms.bool(True),
+    intimeOnly = cms.bool(True),  # discard OOT PU
+    stableOnly = cms.bool(True),  # discard decays in flight from the signal event
+    chargedOnly = cms.bool(True)
+)
+
+muonMinusEndcapOnlyTPSet = cms.PSet(
+    src = cms.InputTag("mix", "MergedTrackTruth"),
+    pdgId = cms.vint32(13, -13),
+    tip = cms.double(3.5),
+    lip = cms.double(30.0),
+    minHit = cms.int32(0),
+    ptMin = cms.double(0.9),       # rivedere ?? 
+    minRapidity = cms.double(-2.4),
+    maxRapidity = cms.double(-1.2),
+    signalOnly = cms.bool(True),
+    intimeOnly = cms.bool(True),  # discard OOT PU
+    stableOnly = cms.bool(True),  # discard decays in flight from the signal event
+    chargedOnly = cms.bool(True)
+)
+
 displacedMuonTPSet = cms.PSet(
     src = cms.InputTag("mix", "MergedTrackTruth"),
     pdgId = cms.vint32(13, -13),
@@ -26,7 +71,7 @@ displacedMuonTPSet = cms.PSet(
     minRapidity = cms.double(-2.4),
     maxRapidity = cms.double(2.4),
     signalOnly = cms.bool(True),
-    intimeOnly = cms.bool(True),
+    intimeOnly = cms.bool(True),  # discard OOT PU
     stableOnly = cms.bool(True), # accept only TP from the Generator (linked to GenParticles)
     chargedOnly = cms.bool(True)
 )
