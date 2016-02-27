@@ -310,7 +310,7 @@ void TrackValHistoPublisher(const char* newFile="NEW_FILE",const char* refFile="
     if (ctf) {
       //===== building
       
-     const char* plots0[] = {"effic", "fakerate", "efficPt", "fakeratePt"};
+     const char* plots0[] = {"effic_vs_eta", "fakerate_vs_eta", "effic_vs_pt", "fakerate_vs_pt"};
       const char* plotsl0[] = {"efficiency vs #eta", "fakerate vs #eta", "efficiency vs Pt", "fakerate vs Pt"};
       bool    logy0 [] = {false,  false, false,  false  };
       Plot4Histograms(newDir + "/building.pdf",
@@ -336,8 +336,8 @@ void TrackValHistoPublisher(const char* newFile="NEW_FILE",const char* refFile="
 
 
       // ====== hits and pt
-      const char* plots2  [] = { "hits_eta", "hits", "num_simul_pT","num_reco_pT"};
-      const char* plotsl2  [] = { "nhits vs eta", "number of hits per track", "Number of Pt Simulated","Pt of Reco tracks"};
+      const char* plots2  [] = { "nhits_vs_eta_prof", "nhits", "num_simul_pT","num_reco_pT"};
+      const char* plotsl2  [] = { "nhits vs eta", "number of hits per track", "Simulated pT","Reconstructed pT"};
       Double_t norm2 [] = {0.,0.,0.,0.,0.,0.};
       // Double_t minx2   [] = {-1E100, -1E100, 0,     0,    -1E100, -1E100 };
       // Double_t maxx2   [] = {-1E100, -1E100, -1E100, -1E100,  -1E100, -1E100 };
@@ -355,7 +355,9 @@ void TrackValHistoPublisher(const char* newFile="NEW_FILE",const char* refFile="
       //===== tuning
       bool    logy3    [] = {false,   true,   false,      true    };
       bool    doKolmo3 [] = {true,    true,   true,       true    };
-      const char* plots3 [] = {"chi2","chi2_prob","chi2mean", "ptres_vs_eta_Mean"};
+      //      const char* plots3 [] = {"chi2","chi2prob","chi2_vs_eta_prof", "ptres_vs_eta_Mean"};
+      const char* plots3 [] = {"chi2","chi2prob","chi2_vs_eta_prof", "ptres_vs_eta_Mean"};
+      const char* plotsl3 [] = {"Normalized #chi^2","#chi^2 Probability","average #chi^2 vs #eta", "mean #delta p_T/p_T vs #eta"};
       Plot4Histograms(newDir + "/tuning.pdf",
 		      rdir, sdir, 
 		      rcollname, scollname,
@@ -369,8 +371,8 @@ void TrackValHistoPublisher(const char* newFile="NEW_FILE",const char* refFile="
       
       
       //===== pulls
-      const char* plots4  [] = {"pullPt", "pullQoverp", "pullPhi", "pullTheta", "pullDxy","pullDz"};
-      const char* plotsl4  [] = {"Pt Pull", "Q/P Pull", "#Phi Pull", "#theta Pull", "Dxy Pull","Dz Pull"};
+      const char* plots4  [] = {"ptpull", "qoverppull", "phipull", "thetapull", "dxypull","dzpull"};
+      const char* plotsl4  [] = {"pT Pull", "Q/P Pull", "#Phi Pull", "#theta Pull", "Dxy Pull","Dz Pull"};
       // Double_t minx4   [] = {-10, -10, -10, -10,    -10, -10 };
       // Double_t maxx4   [] = {10,10,10, 10, 10, 10 };
       // Double_t miny4   [] = {0.,    -1E100, 0., -1E100, 0,  -1E100 };
@@ -385,8 +387,9 @@ void TrackValHistoPublisher(const char* newFile="NEW_FILE",const char* refFile="
       
       
       
-      
-      
+      // AVERAGE Residuals are not much useful, we have profile plots of the 5 residuals vs eta and pt
+      /*
+
       //===== residuals
       const char* plots5  [] = {"ptres_vs_eta", "etares_vs_eta", "phires_vs_eta", "cotThetares_vs_eta", "dxyres_vs_eta","dzres_vs_eta"};
       const char* plotsl5  [] = {"p_{t} resolution", "#eta resolution", "#Phi resolution", "cot(#theta) resolution", "Dxy resolution","Dz resolution"};
@@ -404,12 +407,12 @@ void TrackValHistoPublisher(const char* newFile="NEW_FILE",const char* refFile="
 		      plots5, plotsl5,
 		      logyfalse, doKolmo, norm2,&resol);    
       
-      
+      */
       
       
       //===== resolutions vs eta
-      const char* plots6  [] = {"phires_vs_eta_Sigma", "cotThetares_vs_eta_Sigma", "dxyres_vs_eta_Sigma", "dzres_vs_eta_Sigma", "ptres_vs_eta_Sigma"};
-      const char* plotsl6  [] = {"#sigma(#delta #phi) [rad]", "#sigma(#delta cot(#theta))", "#sigma(#delta d_{0}) [cm]", "#sigma(#delta z_{0}) [cm]", "#sigma(#delta p_{t}/p_{t})"};
+      const char* plots6  [] = {"phires_vs_eta_Sigma", "thetaCotres_vs_eta_Sigma", "dxyres_vs_eta_Sigma", "dzres_vs_eta_Sigma", "ptres_vs_eta_Sigma"};
+      const char* plotsl6  [] = {"#phi resolution vs #eta", "cot(#theta) resolution vs #eta", "Dxy resolution vs #eta", "Dz resolution vs #eta", "#sigma(p_T)/p_T vs #eta"};
       // Double_t minx6   [] = {-1E100, -1E100, -1E100, -1E100,    -1E100, -1E100 };
       // Double_t maxx6   [] = {-1E100, -1E100, -1E100, -1E100,    -1E100, -1E100 };
       // Double_t miny6   [] = {0.,    -1E100, 0., -1E100, 0,  -1E100 };
@@ -422,7 +425,9 @@ void TrackValHistoPublisher(const char* newFile="NEW_FILE",const char* refFile="
 		      plots6, plotsl6,
 		      logyfalse, doKolmo, norm,0);     
       
-      
+ 
+      // these are almost useless, apart the bias in pt, already plotted
+      /*     
       //
       //===== mean values vs eta
       const char* plots7   [] = {"phires_vs_eta_Mean", "cotThetares_vs_eta_Mean", "dxyres_vs_eta_Mean", "dzres_vs_eta_Mean", "ptres_vs_eta_Mean"};
@@ -439,14 +444,14 @@ void TrackValHistoPublisher(const char* newFile="NEW_FILE",const char* refFile="
 		      plots7, plotsl7,
 		      logyfalse, doKolmo,norm,0);     
       
-      
+      */
       
       
       //
       //===== resolutions vs pt
       //
-      const char* plots8  [] = {"phires_vs_pt_Sigma", "cotThetares_vs_pt_Sigma", "dxyres_vs_pt_Sigma", "dzres_vs_pt_Sigma", "ptres_vs_pt_Sigma","ptres_vs_pt_Sigma"};
-      const char* plotsl8 [] = {"#sigma(#delta #phi) [rad]", "#sigma(#delta cot(#theta))", "#sigma(#delta d_{0}) [cm]", "#sigma(#delta z_{0}) [cm]", "#sigma(#delta p_{t}/p_{t})"};
+      const char* plots8  [] = {"phires_vs_pt_Sigma", "thetaCotres_vs_pt_Sigma", "dxyres_vs_pt_Sigma", "dzres_vs_pt_Sigma", "ptres_vs_pt_Sigma"};
+      const char* plotsl8 [] = {"#phi resolution vs p_T", "cot(#theta) resolution vs p_T", "Dxy resolution vs p_T", "Dz resolution vs p_T", "#sigma(p_T)/p_T vs p_T"};
       Double_t minx8  [] = {5., 5., 5., 5., 5., 5.};
       Double_t maxx8  [] = {maxPT,maxPT,maxPT,maxPT,maxPT,maxPT};
       // Double_t miny8  [] = {0.,    -1E100, 0., -1E100, 0,  -1E100 };
@@ -473,9 +478,9 @@ void TrackValHistoPublisher(const char* newFile="NEW_FILE",const char* refFile="
       + newDir + "/hitsAndPt.pdf "
       + newDir + "/tuning.pdf "
       + newDir + "/Pulls.pdf "
-      + newDir + "/residuals.pdf "
+      //      + newDir + "/residuals.pdf "
       + newDir + "/residualsEta.pdf "
-      + newDir + "/meanvaluesEta.pdf "
+      //      + newDir + "/meanvaluesEta.pdf "
       + newDir + "/resolutionsPt.pdf ";
     
     cout << ">> Merging partial pdfs to " << mergefile << "..." << endl;
