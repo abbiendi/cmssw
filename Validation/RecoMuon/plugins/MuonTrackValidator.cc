@@ -114,9 +114,9 @@ void MuonTrackValidator::bookHistograms(DQMStore::IBooker& ibooker, edm::Run con
 	nDThits_vs_eta.push_back( ibooker.book2D("nDThits_vs_eta","Number of DT hits vs eta",nintEta,minEta,maxEta,nintDTHit,minDTHit,maxDTHit) );
 	nCSChits_vs_eta.push_back( ibooker.book2D("nCSChits_vs_eta","Number of CSC hits vs eta",nintEta,minEta,maxEta,nintCSCHit,minCSCHit,maxCSCHit) );
 	nRPChits_vs_eta.push_back( ibooker.book2D("nRPChits_vs_eta","Number of RPC hits vs eta",nintEta,minEta,maxEta,nintRPCHit,minRPCHit,maxRPCHit) );
-	///////// CHeck num of hits in GEMs   !!!
-******
-	if(useGEMs_) nGEMhits_vs_eta.push_back( ibooker.book2D("nGEMhits_vs_eta","Number of GEM hits vs eta",nintEta,minEta,maxEta,nintHit,minHit,maxHit) );
+	if (useGEMs_)
+	  nGEMhits_vs_eta.push_back( ibooker.book2D("nGEMhits_vs_eta","Number of GEM hits vs eta",nintEta,minEta,maxEta,
+						    nintNHit,minNHit,maxNHit) );
       }
 
       if (do_TRKhitsPlots) {
@@ -189,7 +189,6 @@ void MuonTrackValidator::bookHistograms(DQMStore::IBooker& ibooker, edm::Run con
 
       nRecHits_vs_nSimHits.push_back( ibooker.book2D("nRecHits_vs_nSimHits","nRecHits vs nSimHits",nintNHit,minNHit,maxNHit, nintNHit,minNHit,maxNHit )); 
      
->>>>>>> abbiendi/76X-sharper_and_faster_MuonTrackValidation
       if (MABH) {
 	h_PurityVsQuality.push_back
 	  (ibooker.book2D("PurityVsQuality","Purity vs Quality (MABH)",20,0.01,1.01,20,0.01,1.01) );
@@ -775,7 +774,6 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
 	phires_vs_eta[w]->Fill(xetaRec,phiDiff);
 	//phires_vs_pt[w]->Fill(xptRec,phiDiff);
 	phires_vs_pt[w]->Fill(xptSim,phiDiff);
->>>>>>> abbiendi/76X-sharper_and_faster_MuonTrackValidation
 	phires_vs_phi[w]->Fill(phiRec,phiDiff);
 	h_phipull[w]->Fill(phiPull);
 	phipull_vs_eta[w]->Fill(xetaRec,phiPull);
