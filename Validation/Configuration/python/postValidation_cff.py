@@ -1,7 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 from Configuration.StandardSequences.Eras import eras
 
-from Validation.RecoMuon.PostProcessor_cff import *
+#from Validation.RecoMuon.PostProcessor_cff import *
 # added NEW validation
 from Validation.RecoMuon.NewPostProcessor_cff import *
 #
