@@ -1,10 +1,9 @@
 import FWCore.ParameterSet.Config as cms
 from Configuration.StandardSequences.Eras import eras
 
-#from Validation.RecoMuon.PostProcessor_cff import *
-# added NEW validation
-from Validation.RecoMuon.NewPostProcessor_cff import *
-#
+from Validation.RecoMuon.PostProcessor_cff import *
+# add new muon validation
+#from Validation.RecoMuon.NewPostProcessor_cff import *
 from Validation.RecoTrack.PostProcessorTracker_cfi import *
 from Validation.MuonIsolation.PostProcessor_cff import *
 from Validation.CaloTowers.CaloTowersPostProcessor_cff import *
@@ -23,11 +22,10 @@ from Validation.RecoMET.METPostProcessor_cff import *
 from DQMOffline.RecoB.dqmCollector_cff import *
 
 
-# to be customized for OLD or NEW validation
 postValidation = cms.Sequence(
-#      recoMuonPostProcessors
-      NEWrecoMuonPostProcessors
-#
+# to be customized for OLD or NEW muon validation
+      recoMuonPostProcessors
+#      NEWrecoMuonPostProcessors
     + postProcessorTrackSequence
     + postProcessorVertexSequence
     + MuIsoValPostProcessor
@@ -46,21 +44,19 @@ eras.phase1Pixel.toReplaceWith(postValidation, postValidation.copyAndExclude([ #
     runTauEff # Excessive printouts because 2017 doesn't have HLT yet
 ]))
 
-# to be customized for OLD or NEW validation
 postValidation_preprod = cms.Sequence(
-#      recoMuonPostProcessors
-      NEWrecoMuonPostProcessors
-#
+# to be customized for OLD or NEW muon validation
+    recoMuonPostProcessors
+#    NEWrecoMuonPostProcessors
   + postProcessorTrackSequence
   + MuIsoValPostProcessor
 )  
 
 
-# to be customized for OLD or NEW validation
 postValidation_fastsim = cms.Sequence(
-#      recoMuonPostProcessors
-      NEWrecoMuonPostProcessors
-#
+# to be customized for OLD or NEW muon validation
+      recoMuonPostProcessors
+#      NEWrecoMuonPostProcessors
     + postProcessorTrackSequence
     + MuIsoValPostProcessor
     + photonPostProcessor
@@ -77,11 +73,10 @@ postValidation_gen = cms.Sequence(
     EventGeneratorPostProcessor
 )
 
-# to be customized for OLD or NEW validation
 postValidationCosmics = cms.Sequence(
-#    postProcessorMuonMultiTrack
-    postProcessorMuonTrack
-#
+# to be customized for OLD or NEW muon validation
+    postProcessorMuonMultiTrack
+#    postProcessorMuonTrack
 )
 
 postValidationMiniAOD = cms.Sequence(
