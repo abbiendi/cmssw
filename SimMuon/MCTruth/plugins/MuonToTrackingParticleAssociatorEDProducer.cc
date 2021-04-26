@@ -221,6 +221,8 @@ MuonToTrackingParticleAssociatorEDProducer::MuonToTrackingParticleAssociatorEDPr
   DTHitAssociator dttruth(iConfig, consumesCollector());
   CSCHitAssociator cscruth(iConfig, consumesCollector());
 
+  //  edm::LogVerbatim("MuonToTrackingParticleAssociatorEDProducer") << "constructing MuonToTrackingParticleAssociatorEDProducer" << iConfig.dump();
+
   if (iConfig.getUntrackedParameter<bool>("dumpInputCollections")) {
     diagnostics_ = std::make_unique<InputDumper>(iConfig, consumesCollector());
   }
@@ -274,7 +276,7 @@ void MuonToTrackingParticleAssociatorEDProducer::produce(edm::Event &iEvent, con
       diagnostics_->dump(hC, pC);
     };
   }
-
+  
   std::unique_ptr<reco::MuonToTrackingParticleAssociatorBaseImpl> impl{
       new MuonToTrackingParticleAssociatorByHitsImpl(hitExtractor_, resources, &helper_)};
   std::unique_ptr<reco::MuonToTrackingParticleAssociator> toPut(

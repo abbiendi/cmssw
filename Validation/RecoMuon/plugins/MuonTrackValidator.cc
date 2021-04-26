@@ -402,12 +402,49 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
                                         << "\n";
   }
 
-  edm::Handle<TrackingParticleCollection> TPCollectionHeff;
-  event.getByToken(tp_effic_Token, TPCollectionHeff);
-  TrackingParticleCollection const& tPCeff = *(TPCollectionHeff.product());
+  // FIXME: we really need to move to edm::View for reading the
+  // TrackingParticles... Unfortunately it has non-trivial
+  // consequences on the associator/association interfaces etc.
 
+  TrackingParticleRefVector tmpTPeff;
+  const TrackingParticleRefVector* tmpTPeffPtr = nullptr;
+  edm::Handle<TrackingParticleCollection> TPCollectionHeff;
+  edm::Handle<TrackingParticleRefVector> TPCollectionHeffRefVector;
+
+  if (label_tp_effic_refvector) {
+    event.getByToken(tp_effic_refvector_Token, TPCollectionHeffRefVector);
+    tmpTPeffPtr = TPCollectionHeffRefVector.product();
+  }
+  else {
+    event.getByToken(tp_effic_Token, TPCollectionHeff);
+    //    TrackingParticleCollection const& tPCeff = *(TPCollectionHeff.product());
+    size_t nTPeff = TPCollectionHeff->size();
+    for (size_t i = 0; i < nTPeff; ++i) {
+      tmpTPeff.push_back(TrackingParticleRef(TPCollectionHeff, i));
+    }
+    tmpTPeffPtr = &tmpTPeff;
+  }
+  TrackingParticleRefVector const& tPCeff = *tmpTPeffPtr;
+
+
+  TrackingParticleRefVector tmpTPfake;
+  const TrackingParticleRefVector* tmpTPfakePtr = nullptr;
   edm::Handle<TrackingParticleCollection> TPCollectionHfake;
-  event.getByToken(tp_fake_Token, TPCollectionHfake);
+  edm::Handle<TrackingParticleRefVector> TPCollectionHfakeRefVector;
+
+  if (label_tp_fake_refvector) {
+    event.getByToken(tp_fake_refvector_Token, TPCollectionHfakeRefVector);
+    tmpTPfakePtr = TPCollectionHfakeRefVector.product();
+  }
+  else {
+    event.getByToken(tp_fake_Token, TPCollectionHfake);
+    size_t nTPfake = TPCollectionHfake->size();
+    for (size_t i = 0; i < nTPfake; ++i) {
+      tmpTPfake.push_back(TrackingParticleRef(TPCollectionHfake, i));
+    }
+    tmpTPfakePtr = &tmpTPfake;
+  }
+  TrackingParticleRefVector const& tPCfake = *tmpTPfakePtr;
 
   edm::Handle<reco::BeamSpot> recoBeamSpotHandle;
   event.getByToken(bsSrc_Token, recoBeamSpotHandle);
@@ -477,13 +514,16 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
       edm::LogVerbatim("MuonTrackValidator") << "\n# of TrackingParticles: " << tPCeff.size() << "\n";
       int ats = 0;
       int st = 0;
-      for (TrackingParticleCollection::size_type i = 0; i < tPCeff.size(); i++) {
+      //      for (TrackingParticleCollection::size_type i = 0; i < tPCeff.size(); i++) {
+      for (size_t i = 0; i < tPCeff.size(); i++) {
         bool TP_is_matched = false;
         bool isChargeOK = true;
         double quality = 0.;
 
-        TrackingParticleRef tpr(TPCollectionHeff, i);
-        TrackingParticle* tp = const_cast<TrackingParticle*>(tpr.get());
+	//        TrackingParticleRef tpr(TPCollectionHeff, i);
+	//        TrackingParticle* tp = const_cast<TrackingParticle*>(tpr.get());
+        const TrackingParticleRef& tpr = tPCeff[i];
+        const TrackingParticle& tp = *tpr;
 
         TrackingParticle::Vector momentumTP;
         TrackingParticle::Point vertexTP;
@@ -494,10 +534,13 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
         //and the impact parameters w.r.t. PCA
         if (parametersDefiner == "LhcParametersDefinerForTP") {
           LogTrace("MuonTrackValidator") << "TrackingParticle " << i;
-          if (!tpSelector(*tp))
+	  //          if (!tpSelector(*tp))
+          if (!tpSelector(tp))
             continue;
-          momentumTP = tp->momentum();
-          vertexTP = tp->vertex();
+	  //          momentumTP = tp->momentum();
+	  //          vertexTP = tp->vertex();
+          momentumTP = tp.momentum();
+          vertexTP = tp.vertex();
           TrackingParticle::Vector momentum = Lhc_parametersDefinerTP->momentum(event, setup, tpr);
           TrackingParticle::Point vertex = Lhc_parametersDefinerTP->vertex(event, setup, tpr);
           dxySim = TrackingParticleIP::dxy(vertex, momentum, bs.position());
@@ -632,7 +675,7 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
             fillPlotNoFlow(h_misidpu[w], PU_NumInteractions);
         }
 
-      }  // End for (TrackingParticleCollection::size_type i=0; i<tPCeff.size(); i++){
+      }  // End for (size_t i = 0; i < tPCeff.size(); i++) {
 
       //
       //fill reconstructed track histograms

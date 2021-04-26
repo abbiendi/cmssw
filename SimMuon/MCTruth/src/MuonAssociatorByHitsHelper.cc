@@ -17,6 +17,7 @@ using namespace std;
 MuonAssociatorByHitsHelper::MuonAssociatorByHitsHelper(const edm::ParameterSet &conf)
     : includeZeroHitMuons(conf.getParameter<bool>("includeZeroHitMuons")),
       acceptOneStubMatchings(conf.getParameter<bool>("acceptOneStubMatchings")),
+      rejectBadGlobal(conf.getParameter<bool>("rejectBadGlobal")),
       UseTracker(conf.getParameter<bool>("UseTracker")),
       UseMuon(conf.getParameter<bool>("UseMuon")),
       AbsoluteNumberOfHits_track(conf.getParameter<bool>("AbsoluteNumberOfHits_track")),
@@ -32,7 +33,7 @@ MuonAssociatorByHitsHelper::MuonAssociatorByHitsHelper(const edm::ParameterSet &
       UseSplitting(conf.getParameter<bool>("UseSplitting")),
       ThreeHitTracksAreSpecial(conf.getParameter<bool>("ThreeHitTracksAreSpecial")),
       dumpDT(conf.getParameter<bool>("dumpDT")) {
-  edm::LogVerbatim("MuonAssociatorByHitsHelper") << "constructing  MuonAssociatorByHitsHelper" << conf.dump();
+  edm::LogVerbatim("MuonAssociatorByHitsHelper") << "\n constructing  MuonAssociatorByHitsHelper" << conf.dump();
 
   // up to the user in the other cases - print a message
   if (UseTracker)
@@ -338,10 +339,13 @@ MuonAssociatorByHitsHelper::IndexAssociation MuonAssociatorByHitsHelper::associa
         // standalone muons, global muons)
         bool matchOk = trackerOk || muonOk;
 
-        // only for global muons: match both tracker and muon stub unless
-        // (acceptOneStubMatchings==true)
-        if (!acceptOneStubMatchings && n_tracker_selected_hits != 0 && n_muon_selected_hits != 0)
-          matchOk = trackerOk && muonOk;
+        // only for global tracks: match both tracker and muon stub (if acceptOneStubMatchings==false)
+	// depending on the muon selection reject tracks with only one stub (if rejectBadGlobal==true)
+	//
+	if (UseTracker && UseMuon && !acceptOneStubMatchings &&
+	    ((n_tracker_selected_hits != 0 && n_muon_selected_hits != 0) || rejectBadGlobal)
+	    )
+	  matchOk = trackerOk && muonOk;  
 
         if (matchOk) {
           outputCollection[tindex].push_back(IndexMatch(tpindex, global_quality));
@@ -810,10 +814,13 @@ MuonAssociatorByHitsHelper::IndexAssociation MuonAssociatorByHitsHelper::associa
         // standalone muons, global muons)
         bool matchOk = trackerOk || muonOk;
 
-        // only for global muons: match both tracker and muon stub unless
-        // (acceptOneStubMatchings==true)
-        if (!acceptOneStubMatchings && n_tracker_selected_hits != 0 && n_muon_selected_hits != 0)
-          matchOk = trackerOk && muonOk;
+        // only for global tracks: match both tracker and muon stub (if acceptOneStubMatchings==false)
+	// depending on the muon selection reject tracks with only one stub (if rejectBadGlobal==true)
+	//
+	if (UseTracker && UseMuon && !acceptOneStubMatchings &&
+	    ((n_tracker_selected_hits != 0 && n_muon_selected_hits != 0) || rejectBadGlobal)
+	    )
+	  matchOk = trackerOk && muonOk;  
 
         if (matchOk) {
           outputCollection[tpindex].push_back(IndexMatch(tindex, global_quality));

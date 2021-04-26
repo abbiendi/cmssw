@@ -9,8 +9,10 @@ muonAssociatorByHitsCommonParameters = cms.PSet(
     # include invalid muon hits
     includeZeroHitMuons = cms.bool(True),
     #
-    # accept to match only tracker/muon stub of globalMuons
+    # accept mismatched association of tracker/muon stub of global hit patterns
     acceptOneStubMatchings = cms.bool(False),
+    # reject bad global muons made of only tracker hits
+    rejectBadGlobal = cms.bool(True),
     #
     # switches to be set according to the input Track collection
     UseTracker = cms.bool(True),
@@ -150,6 +152,7 @@ muonAssociatorByHits = cms.EDProducer("MuonAssociatorEDProducer",
     #
     # ... TrackingParticle collection
     tpTag = cms.InputTag("mix","MergedTrackTruth"),
+    tpRefVector = cms.bool(False),
     ignoreMissingTrackCollection = cms.untracked.bool(False),
 )
 

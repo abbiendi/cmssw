@@ -1,8 +1,14 @@
 import FWCore.ParameterSet.Config as cms
 
 # TrackingParticle (MC truth) selectors
+
+import SimMuon.MCTruth.trackingParticleMuonRefSelector_cfi
+TPmu = SimMuon.MCTruth.trackingParticleMuonRefSelector_cfi.trackingParticlesMuon.clone()
+TPmu_seq = cms.Sequence( TPmu )
+
 muonTPSet = cms.PSet(
     src = cms.InputTag("mix", "MergedTrackTruth"),
+#    src = cms.InputTag("TPmu", ""),
     pdgId = cms.vint32(13, -13),
     tip = cms.double(3.5),
     lip = cms.double(30.0),
