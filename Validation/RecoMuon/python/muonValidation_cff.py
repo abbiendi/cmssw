@@ -16,16 +16,14 @@ from Validation.RecoMuon.RecoMuonValidator_cff import *
 import Validation.RecoMuon.MuonTrackValidator_cfi
 MTV = Validation.RecoMuon.MuonTrackValidator_cfi.muonTrackValidator.clone()
 # DEFAULTS ###################################
-#    label_tp_effic = cms.InputTag("mix","MergedTrackTruth"),
-#    label_tp_fake = cms.InputTag("mix","MergedTrackTruth"),
-#    label_tp_effic_refvector = cms.bool(False),
-#    label_tp_fake_refvector = cms.bool(False),
+#    label_tp = cms.InputTag("mix","MergedTrackTruth"),
+#    label_tp_refvector = cms.bool(False),
 #    muonTPSelector = cms.PSet(muonTPSet),
 ##############################################
-MTV.label_tp_effic = ("TPmu")
-MTV.label_tp_fake = ("TPmu")
-MTV.label_tp_effic_refvector = True
-MTV.label_tp_fake_refvector = True
+MTV.label_tp = ("TPmu")
+MTV.label_tp_refvector = True
+#MTV.label_tp_fake = ("TPmu")
+#MTV.label_tp_fake_refvector = True
 MTV.muonTPSelector.src = ("TPmu")
 ##############################################
 
@@ -34,6 +32,9 @@ trkMuonTrackVTrackAssoc.associatormap = 'tpToTkmuTrackAssociation'
 trkMuonTrackVTrackAssoc.associators = ('trackAssociatorByHits',)
 #trkMuonTrackVTrackAssoc.label = ('generalTracks',)
 trkMuonTrackVTrackAssoc.label = ('probeTracks',)
+trkMuonTrackVTrackAssoc.label_tp = ("TPtrack")
+#trkMuonTrackVTrackAssoc.label_tp_fake = ("TPtrack")
+trkMuonTrackVTrackAssoc.muonTPSelector.src = ("TPtrack")
 trkMuonTrackVTrackAssoc.muonHistoParameters = trkMuonHistoParameters
 
 # MuonAssociatorByHits used for all track collections
@@ -42,6 +43,9 @@ trkProbeTrackVMuonAssoc = MTV.clone()
 trkProbeTrackVMuonAssoc.associatormap = 'tpToTkMuonAssociation'
 #trkProbeTrackVMuonAssoc.label = ('generalTracks',)
 trkProbeTrackVMuonAssoc.label = ('probeTracks',)
+trkProbeTrackVMuonAssoc.label_tp = ("TPtrack")
+#trkProbeTrackVMuonAssoc.label_tp_fake = ("TPtrack")
+trkProbeTrackVMuonAssoc.muonTPSelector.src = ("TPtrack")
 trkProbeTrackVMuonAssoc.muonHistoParameters = trkMuonHistoParameters
 
 staSeedTrackVMuonAssoc = MTV.clone()
@@ -77,8 +81,10 @@ staRefitUpdMuonTrackVMuonAssoc.muonHistoParameters = staUpdMuonHistoParameters
 displacedTrackVMuonAssoc = MTV.clone()
 displacedTrackVMuonAssoc.associatormap = 'tpToDisplacedTrkMuonAssociation'
 displacedTrackVMuonAssoc.label = ('displacedTracks',)
+displacedTrackVMuonAssoc.label_tp = ("TPtrack")
+#displacedTrackVMuonAssoc.label_tp_fake = ("TPtrack")
 displacedTrackVMuonAssoc.muonTPSelector = displacedMuonTPSet
-displacedTrackVMuonAssoc.muonTPSelector.src = ("TPmu")
+displacedTrackVMuonAssoc.muonTPSelector.src = ("TPtrack")
 displacedTrackVMuonAssoc.muonHistoParameters = displacedTrkMuonHistoParameters
 
 displacedStaSeedTrackVMuonAssoc = MTV.clone()
@@ -125,7 +131,19 @@ tunepMuonTrackVMuonAssoc.muonHistoParameters = glbMuonHistoParameters
 pfMuonTrackVMuonAssoc = MTV.clone()
 pfMuonTrackVMuonAssoc.associatormap = 'tpToPFMuonAssociation'
 pfMuonTrackVMuonAssoc.label = ('pfMuonTracks',)
+pfMuonTrackVMuonAssoc.label_tp = ("TPpfmu")
+#pfMuonTrackVMuonAssoc.label_tp_fake = ("TPpfmu")
+pfMuonTrackVMuonAssoc.muonTPSelector.src = ("TPpfmu")
 pfMuonTrackVMuonAssoc.muonHistoParameters = glbMuonHistoParameters
+
+trkProbeTrackVMuonAssoc = MTV.clone()
+trkProbeTrackVMuonAssoc.associatormap = 'tpToTkMuonAssociation'
+#trkProbeTrackVMuonAssoc.label = ('generalTracks',)
+trkProbeTrackVMuonAssoc.label = ('probeTracks',)
+trkProbeTrackVMuonAssoc.label_tp = ("TPtrack")
+#trkProbeTrackVMuonAssoc.label_tp_fake = ("TPtrack")
+trkProbeTrackVMuonAssoc.muonTPSelector.src = ("TPtrack")
+trkProbeTrackVMuonAssoc.muonHistoParameters = trkMuonHistoParameters
 
 recomuMuonTrackVMuonAssoc = MTV.clone()
 recomuMuonTrackVMuonAssoc.associatormap = 'tpTorecoMuonMuonAssociation'
@@ -147,10 +165,8 @@ me0MuonTrackVMuonAssoc.muonHistoParameters = me0MuonHistoParameters
 
 MTVcosmic = Validation.RecoMuon.MuonTrackValidator_cfi.muonTrackValidator.clone()
 # DEFAULTS ###################################
-#    label_tp_effic = cms.InputTag("mix","MergedTrackTruth"),
-#    label_tp_fake = cms.InputTag("mix","MergedTrackTruth"),
-#    label_tp_effic_refvector = cms.bool(False),
-#    label_tp_fake_refvector = cms.bool(False),
+#    label_tp = cms.InputTag("mix","MergedTrackTruth"),
+#    label_tp_refvector = cms.bool(False),
 ##############################################
 MTVcosmic.parametersDefiner = cms.string('CosmicParametersDefinerForTP')
 MTVcosmic.muonTPSelector = cosmicMuonTPSet
@@ -308,17 +324,21 @@ gemMuonValidation_phase2 = cms.Sequence(extractGemMuonsTracks_seq + tpToGEMMuonM
 ##########################################################################
 # The full offline muon validation sequence
 #
-recoMuonValidation = cms.Sequence( TPmu_seq +
+recoMuonValidation = cms.Sequence( TPtrack_seq + TPmu_seq + TPpfmu_seq +
     muonValidation_seq + muonValidationTEV_seq + muonValidationRefit_seq + muonValidationDisplaced_seq + muonValidationRMV_seq
     )
 
-recoMuonValidation_noTABH = cms.Sequence( TPmu_seq +
+recoMuonValidation_noTABH = cms.Sequence( TPtrack_seq + TPmu_seq + TPpfmu_seq +
     muonValidation_noTABH_seq + muonValidationTEV_seq + muonValidationRefit_seq + muonValidationDisplaced_seq + muonValidationRMV_seq
+    )
+
+recoMuonValidation_noTABH_noDisplaced = cms.Sequence( TPtrack_seq + TPmu_seq + TPpfmu_seq +
+    muonValidation_noTABH_seq + muonValidationTEV_seq + muonValidationRefit_seq + muonValidationRMV_seq
     )
 
 # no displaced muons in fastsim
 from Configuration.Eras.Modifier_fastSim_cff import fastSim
-fastSim.toReplaceWith(recoMuonValidation, cms.Sequence(cms.SequencePlaceholder("TPmu") + muonValidation_seq + muonValidationTEV_seq + muonValidationRefit_seq + muonValidationRMV_seq))
+fastSim.toReplaceWith(recoMuonValidation, cms.Sequence(cms.SequencePlaceholder("TPtrack") + cms.SequencePlaceholder("TPmu") + cms.SequencePlaceholder("TPpfmu") + muonValidation_seq + muonValidationTEV_seq + muonValidationRefit_seq + muonValidationRMV_seq))
 
 # sequence for cosmic muons
 recoCosmicMuonValidation = cms.Sequence(
@@ -333,13 +353,13 @@ _run3_muonValidation += gemMuonValidation
 
 #_phase2_muonValidation = recoMuonValidation.copy()              #For full validation 
 #_phase2_muonValidation = recoMuonValidation_reduced_seq.copy()
-_phase2_muonValidation = cms.Sequence(TPmu_seq + recoMuonValidation_reduced_seq)
+_phase2_muonValidation = cms.Sequence(TPtrack_seq + TPmu_seq + TPpfmu_seq + recoMuonValidation_reduced_seq)
 _phase2_muonValidation += gemMuonValidation_phase2
 _phase2_muonValidation += me0MuonValidation
 
 #_phase2_ge0_muonValidation = recoMuonValidation.copy()          #For full validation
 #_phase2_ge0_muonValidation = recoMuonValidation_reduced_seq.copy()
-_phase2_ge0_muonValidation =  cms.Sequence(TPmu_seq + recoMuonValidation_reduced_seq)
+_phase2_ge0_muonValidation =  cms.Sequence(TPtrack_seq + TPmu_seq + TPpfmu_seq + recoMuonValidation_reduced_seq)
 _phase2_ge0_muonValidation += gemMuonValidation_phase2
 
 from Configuration.Eras.Modifier_run3_GEM_cff import run3_GEM

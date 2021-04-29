@@ -2,9 +2,22 @@ import FWCore.ParameterSet.Config as cms
 
 # TrackingParticle (MC truth) selectors
 
-import SimMuon.MCTruth.trackingParticleMuonRefSelector_cfi
-TPmu = SimMuon.MCTruth.trackingParticleMuonRefSelector_cfi.trackingParticlesMuon.clone()
+import SimMuon.MCTruth.trackingParticleMuon_cfi
+TPrefs = SimMuon.MCTruth.trackingParticleMuon_cfi.trackingParticleMuon.clone()
+
+TPmu = TPrefs.clone()
 TPmu_seq = cms.Sequence( TPmu )
+
+#import SimMuon.MCTruth.trackingParticleTrackRefSelector_cfi
+TPtrack = TPrefs.clone()
+TPtrack.skim = 'track'
+TPtrack.ptmin = 2.
+TPtrack_seq = cms.Sequence( TPtrack )
+
+#import SimMuon.MCTruth.trackingParticlePFMuRefSelector_cfi
+TPpfmu = TPrefs.clone()
+TPpfmu.skim = 'pf'
+TPpfmu_seq = cms.Sequence( TPpfmu )
 
 muonTPSet = cms.PSet(
     src = cms.InputTag("mix", "MergedTrackTruth"),
@@ -25,7 +38,8 @@ muonTPSet = cms.PSet(
 from Configuration.ProcessModifiers.premix_stage2_cff import premix_stage2
 premix_stage2.toModify(muonTPSet, src = "mixData:MergedTrackTruth")
 
-me0MuonTPSet = muonTPSet.clone(
+me0MuonTPSet = cms.PSet(
+    src = cms.InputTag("mix", "MergedTrackTruth"),
     pdgId = cms.vint32(13, -13),
     tip = cms.double(3.5),
     lip = cms.double(30.0),
@@ -40,7 +54,8 @@ me0MuonTPSet = muonTPSet.clone(
     chargedOnly = cms.bool(True)
 )
 
-displacedMuonTPSet = muonTPSet.clone(
+displacedMuonTPSet = cms.PSet(
+    src = cms.InputTag("mix", "MergedTrackTruth"),
     pdgId = cms.vint32(13, -13),
     tip = cms.double(85.),  # radius to have at least the 3 outermost TOB layers
     lip = cms.double(210.), # z to have at least the 3 outermost TEC layers

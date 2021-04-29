@@ -8,16 +8,14 @@ from Validation.RecoMuon.histoParameters_cff import *
 import Validation.RecoMuon.MuonTrackValidator_cfi
 MTVhlt = Validation.RecoMuon.MuonTrackValidator_cfi.muonTrackValidator.clone()
 # DEFAULTS ###################################
-#    label_tp_effic = cms.InputTag("mix","MergedTrackTruth"),
-#    label_tp_fake = cms.InputTag("mix","MergedTrackTruth"),
-#    label_tp_effic_refvector = cms.bool(False),
-#    label_tp_fake_refvector = cms.bool(False),
+#    label_tp = cms.InputTag("mix","MergedTrackTruth"),
+#    label_tp_refvector = cms.bool(False),
 #    muonTPSelector = cms.PSet(muonTPSet),
 ##############################################
-MTVhlt.label_tp_effic = ("TPmu")
-MTVhlt.label_tp_fake = ("TPmu")
-MTVhlt.label_tp_effic_refvector = True
-MTVhlt.label_tp_fake_refvector = True
+MTVhlt.label_tp = ("TPmu")
+MTVhlt.label_tp_refvector = True
+#MTVhlt.label_tp_fake = ("TPmu")
+#MTVhlt.label_tp_fake_refvector = True
 MTVhlt.muonTPSelector.src = ("TPmu")
 MTVhlt.dirName = 'HLT/Muon/MuonTrack/'
 #MTVhlt.beamSpot = 'hltOfflineBeamSpot'

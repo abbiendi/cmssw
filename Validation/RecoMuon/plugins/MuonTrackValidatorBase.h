@@ -44,11 +44,11 @@ public:
   MuonTrackValidatorBase(const edm::ParameterSet& pset, edm::ConsumesCollector iC) : MuonTrackValidatorBase(pset) {
     bsSrc_Token = iC.consumes<reco::BeamSpot>(bsSrc);
 
-    if (label_tp_effic_refvector) tp_effic_refvector_Token = iC.consumes<TrackingParticleRefVector>(label_tp_effic);
-    else tp_effic_Token = iC.consumes<TrackingParticleCollection>(label_tp_effic);
+    if (label_tp_refvector) tp_refvector_Token = iC.consumes<TrackingParticleRefVector>(label_tp);
+    else tp_Token = iC.consumes<TrackingParticleCollection>(label_tp);
 
-    if (label_tp_fake_refvector) tp_fake_refvector_Token = iC.consumes<TrackingParticleRefVector>(label_tp_fake);
-    else tp_fake_Token = iC.consumes<TrackingParticleCollection>(label_tp_fake);
+    //    if (label_tp_fake_refvector) tp_fake_refvector_Token = iC.consumes<TrackingParticleRefVector>(label_tp_fake);
+    //    else tp_fake_Token = iC.consumes<TrackingParticleCollection>(label_tp_fake);
 
     pileupinfo_Token = iC.consumes<std::vector<PileupSummaryInfo> >(label_pileupinfo);
     for (unsigned int www = 0; www < label.size(); www++) {
@@ -59,10 +59,10 @@ public:
   MuonTrackValidatorBase(const edm::ParameterSet& pset)
       : label(pset.getParameter<std::vector<edm::InputTag> >("label")),
         bsSrc(pset.getParameter<edm::InputTag>("beamSpot")),
-        label_tp_effic(pset.getParameter<edm::InputTag>("label_tp_effic")),
-        label_tp_fake(pset.getParameter<edm::InputTag>("label_tp_fake")),
-        label_tp_effic_refvector(pset.getParameter<bool>("label_tp_effic_refvector")),
-        label_tp_fake_refvector(pset.getParameter<bool>("label_tp_fake_refvector")),
+        label_tp(pset.getParameter<edm::InputTag>("label_tp")),
+    //        label_tp_fake(pset.getParameter<edm::InputTag>("label_tp_fake")),
+        label_tp_refvector(pset.getParameter<bool>("label_tp_refvector")),
+    //        label_tp_fake_refvector(pset.getParameter<bool>("label_tp_fake_refvector")),
         label_pileupinfo(pset.getParameter<edm::InputTag>("label_pileupinfo")),
         associators(pset.getParameter<std::vector<std::string> >("associators")),
         out(pset.getParameter<std::string>("outputFile")),
@@ -213,20 +213,20 @@ public:
 protected:
   std::vector<edm::InputTag> label;
   edm::InputTag bsSrc;
-  edm::InputTag label_tp_effic;
-  edm::InputTag label_tp_fake;
-  bool label_tp_effic_refvector;
-  bool label_tp_fake_refvector;
+  edm::InputTag label_tp;
+  //  edm::InputTag label_tp_fake;
+  bool label_tp_refvector;
+  //  bool label_tp_fake_refvector;
   edm::InputTag label_pileupinfo;
   std::vector<std::string> associators;
   std::string out;
   std::string parametersDefiner;
   std::vector<edm::EDGetTokenT<edm::View<reco::Track> > > track_Collection_Token;
   edm::EDGetTokenT<reco::BeamSpot> bsSrc_Token;
-  edm::EDGetTokenT<TrackingParticleCollection> tp_effic_Token;
-  edm::EDGetTokenT<TrackingParticleCollection> tp_fake_Token;
-  edm::EDGetTokenT<TrackingParticleRefVector> tp_effic_refvector_Token;
-  edm::EDGetTokenT<TrackingParticleRefVector> tp_fake_refvector_Token;
+  edm::EDGetTokenT<TrackingParticleCollection> tp_Token;
+  //  edm::EDGetTokenT<TrackingParticleCollection> tp_fake_Token;
+  edm::EDGetTokenT<TrackingParticleRefVector> tp_refvector_Token;
+  //  edm::EDGetTokenT<TrackingParticleRefVector> tp_fake_refvector_Token;
   edm::EDGetTokenT<std::vector<PileupSummaryInfo> > pileupinfo_Token;
   edm::ESHandle<MagneticField> theMF;
 

@@ -406,27 +406,26 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
   // TrackingParticles... Unfortunately it has non-trivial
   // consequences on the associator/association interfaces etc.
 
-  TrackingParticleRefVector tmpTPeff;
-  const TrackingParticleRefVector* tmpTPeffPtr = nullptr;
-  edm::Handle<TrackingParticleCollection> TPCollectionHeff;
-  edm::Handle<TrackingParticleRefVector> TPCollectionHeffRefVector;
+  TrackingParticleRefVector tmpTP;
+  const TrackingParticleRefVector* tmpTPPtr = nullptr;
+  edm::Handle<TrackingParticleCollection> TPCollectionH;
+  edm::Handle<TrackingParticleRefVector> TPCollectionHRefVector;
 
-  if (label_tp_effic_refvector) {
-    event.getByToken(tp_effic_refvector_Token, TPCollectionHeffRefVector);
-    tmpTPeffPtr = TPCollectionHeffRefVector.product();
+  if (label_tp_refvector) {
+    event.getByToken(tp_refvector_Token, TPCollectionHRefVector);
+    tmpTPPtr = TPCollectionHRefVector.product();
   }
   else {
-    event.getByToken(tp_effic_Token, TPCollectionHeff);
-    //    TrackingParticleCollection const& tPCeff = *(TPCollectionHeff.product());
-    size_t nTPeff = TPCollectionHeff->size();
-    for (size_t i = 0; i < nTPeff; ++i) {
-      tmpTPeff.push_back(TrackingParticleRef(TPCollectionHeff, i));
+    event.getByToken(tp_Token, TPCollectionH);
+    size_t nTP = TPCollectionH->size();
+    for (size_t i = 0; i < nTP; ++i) {
+      tmpTP.push_back(TrackingParticleRef(TPCollectionH, i));
     }
-    tmpTPeffPtr = &tmpTPeff;
+    tmpTPPtr = &tmpTP;
   }
-  TrackingParticleRefVector const& tPCeff = *tmpTPeffPtr;
+  TrackingParticleRefVector const& tPC = *tmpTPPtr;
 
-
+  /*
   TrackingParticleRefVector tmpTPfake;
   const TrackingParticleRefVector* tmpTPfakePtr = nullptr;
   edm::Handle<TrackingParticleCollection> TPCollectionHfake;
@@ -445,6 +444,7 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
     tmpTPfakePtr = &tmpTPfake;
   }
   TrackingParticleRefVector const& tPCfake = *tmpTPfakePtr;
+  */
 
   edm::Handle<reco::BeamSpot> recoBeamSpotHandle;
   event.getByToken(bsSrc_Token, recoBeamSpotHandle);
@@ -488,10 +488,10 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
 
           LogTrace("MuonTrackValidator") << "Calling associateRecoToSim method"
                                          << "\n";
-          recSimColl = associator[ww]->associateRecoToSim(trackCollection, TPCollectionHfake);
+          recSimColl = associator[ww]->associateRecoToSim(trackCollection, TPCollectionH);
           LogTrace("MuonTrackValidator") << "Calling associateSimToReco method"
                                          << "\n";
-          simRecColl = associator[ww]->associateSimToReco(trackCollection, TPCollectionHeff);
+          simRecColl = associator[ww]->associateSimToReco(trackCollection, TPCollectionH);
         } else {
           edm::LogVerbatim("MuonTrackValidator")
               << "Analyzing " << label[www].process() << ":" << label[www].label() << ":" << label[www].instance()
@@ -511,18 +511,18 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
       //
       //fill simulation histograms
       //
-      edm::LogVerbatim("MuonTrackValidator") << "\n# of TrackingParticles: " << tPCeff.size() << "\n";
+      edm::LogVerbatim("MuonTrackValidator") << "\n# of TrackingParticles: " << tPC.size() << "\n";
       int ats = 0;
       int st = 0;
       //      for (TrackingParticleCollection::size_type i = 0; i < tPCeff.size(); i++) {
-      for (size_t i = 0; i < tPCeff.size(); i++) {
+      for (size_t i = 0; i < tPC.size(); i++) {
         bool TP_is_matched = false;
         bool isChargeOK = true;
         double quality = 0.;
 
 	//        TrackingParticleRef tpr(TPCollectionHeff, i);
 	//        TrackingParticle* tp = const_cast<TrackingParticle*>(tpr.get());
-        const TrackingParticleRef& tpr = tPCeff[i];
+        const TrackingParticleRef& tpr = tPC[i];
         const TrackingParticle& tp = *tpr;
 
         TrackingParticle::Vector momentumTP;

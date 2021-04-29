@@ -54,11 +54,11 @@ public:
     // Declare consumes (also for the base class)
     bsSrc_Token = consumes<reco::BeamSpot>(bsSrc);
 
-    if (label_tp_effic_refvector) tp_effic_refvector_Token = consumes<TrackingParticleRefVector>(label_tp_effic);
-    else tp_effic_Token = consumes<TrackingParticleCollection>(label_tp_effic);
+    if (label_tp_refvector) tp_refvector_Token = consumes<TrackingParticleRefVector>(label_tp);
+    else tp_Token = consumes<TrackingParticleCollection>(label_tp);
 
-    if (label_tp_fake_refvector) tp_fake_refvector_Token = consumes<TrackingParticleRefVector>(label_tp_fake);
-    else tp_fake_Token = consumes<TrackingParticleCollection>(label_tp_fake);
+    //    if (label_tp_fake_refvector) tp_fake_refvector_Token = consumes<TrackingParticleRefVector>(label_tp_fake);
+    //    else tp_fake_Token = consumes<TrackingParticleCollection>(label_tp_fake);
 
     pileupinfo_Token = consumes<std::vector<PileupSummaryInfo> >(label_pileupinfo);
     for (unsigned int www = 0; www < label.size(); www++) {

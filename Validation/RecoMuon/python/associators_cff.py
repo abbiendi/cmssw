@@ -46,6 +46,7 @@ tpToTkMuonAssociation = MABH.clone()
 tpToTkMuonAssociation.tracksTag ='probeTracks'
 tpToTkMuonAssociation.UseTracker = True
 tpToTkMuonAssociation.UseMuon = False
+tpToTkMuonAssociation.tpTag = ("TPtrack")
 
 tpToStaSeedAssociation = MABH.clone()
 tpToStaSeedAssociation.tracksTag = 'seedsOfSTAmuons'
@@ -82,6 +83,7 @@ tpToDisplacedTrkMuonAssociation = MABH.clone()
 tpToDisplacedTrkMuonAssociation.tracksTag = 'displacedTracks'
 tpToDisplacedTrkMuonAssociation.UseTracker = True
 tpToDisplacedTrkMuonAssociation.UseMuon = False
+tpToDisplacedTrkMuonAssociation.tpTag = ("TPtrack")
 
 tpToDisplacedStaSeedAssociation = MABH.clone()
 tpToDisplacedStaSeedAssociation.tracksTag = 'seedsOfDisplacedSTAmuons'
@@ -131,6 +133,7 @@ tpToPFMuonAssociation = MABH.clone()
 tpToPFMuonAssociation.tracksTag = 'pfMuonTracks'
 tpToPFMuonAssociation.UseTracker = True
 tpToPFMuonAssociation.UseMuon = True
+tpToPFMuonAssociation.tpTag = ("TPpfmu")
 tpToPFMuonAssociation.EfficiencyCut_muon = 0.
 tpToPFMuonAssociation.rejectBadGlobal = False
 
@@ -142,9 +145,10 @@ tpTorecoMuonMuonAssociation.tracksTag = 'recoMuonTracks'
 tpTorecoMuonMuonAssociation.UseTracker = True
 tpTorecoMuonMuonAssociation.UseMuon = True
 tpTorecoMuonMuonAssociation.EfficiencyCut_track = 0.
-tpTorecoMuonMuonAssociation.PurityCut_track = 0.
 tpTorecoMuonMuonAssociation.EfficiencyCut_muon = 0.
-tpTorecoMuonMuonAssociation.PurityCut_muon = 0.
+# matching to a skimmed TP collection needs a purity cut to avoid pathological cases
+#tpTorecoMuonMuonAssociation.PurityCut_track = 0.
+#tpTorecoMuonMuonAssociation.PurityCut_muon = 0.
 tpTorecoMuonMuonAssociation.includeZeroHitMuons = True
 tpTorecoMuonMuonAssociation.rejectBadGlobal = False
 
@@ -192,16 +196,19 @@ tpToL3OITkMuonAssociation = MABHhlt.clone()
 tpToL3OITkMuonAssociation.tracksTag = 'hltIterL3OIMuonTrackSelectionHighPurity'
 tpToL3OITkMuonAssociation.UseTracker = True
 tpToL3OITkMuonAssociation.UseMuon = False
+#tpToL3OITkMuonAssociation.tpTag = ("TPtrack")
 
 tpToL3TkMuonAssociation = MABHhlt.clone()
 tpToL3TkMuonAssociation.tracksTag = 'hltIterL3MuonMerged'
 tpToL3TkMuonAssociation.UseTracker = True
 tpToL3TkMuonAssociation.UseMuon = False
+#tpToL3TkMuonAssociation.tpTag = ("TPtrack")
 
 tpToL3FromL1TkMuonAssociation = MABHhlt.clone()
 tpToL3FromL1TkMuonAssociation.tracksTag = 'hltIterL3MuonAndMuonFromL1Merged'
 tpToL3FromL1TkMuonAssociation.UseTracker = True
 tpToL3FromL1TkMuonAssociation.UseMuon = False
+#tpToL3FromL1TkMuonAssociation.tpTag = ("TPtrack")
 
 tpToL3GlbMuonAssociation = MABHhlt.clone()
 tpToL3GlbMuonAssociation.tracksTag = 'hltIterL3GlbMuon'
@@ -212,11 +219,13 @@ tpToL3NoIDMuonAssociation = MABHhlt.clone()
 tpToL3NoIDMuonAssociation.tracksTag = 'hltIterL3MuonsNoIDTracks'
 tpToL3NoIDMuonAssociation.UseTracker = True
 tpToL3NoIDMuonAssociation.UseMuon = True
+tpToL3NoIDMuonAssociation.rejectBadGlobal = False
 
 tpToL3MuonAssociation = MABHhlt.clone()
 tpToL3MuonAssociation.tracksTag = 'hltIterL3MuonsTracks'
 tpToL3MuonAssociation.UseTracker = True
 tpToL3MuonAssociation.UseMuon = True
+tpToL3MuonAssociation.rejectBadGlobal = False
 # ===
 
 #
