@@ -22,7 +22,6 @@ MuonAssociatorEDProducer::MuonAssociatorEDProducer(const edm::ParameterSet &pars
   edm::LogVerbatim("MuonAssociatorEDProducer") << "\n MuonAssociatorByHits will associate reco::Tracks with "
                                                << tracksTag << "\n\t\t and TrackingParticles with " << tpTag;
   const std::string recoTracksLabel = tracksTag.label();
-  //  const std::string recoTracksInstance = tracksTag.instance();
 
   // check and fix inconsistent input settings
   // tracks with hits only on muon detectors
@@ -45,8 +44,10 @@ MuonAssociatorEDProducer::MuonAssociatorEDProducer(const edm::ParameterSet &pars
   }
   // tracks with hits only on tracker
   if (recoTracksLabel == "generalTracks" || recoTracksLabel == "probeTracks" || recoTracksLabel == "displacedTracks" ||
+      recoTracksLabel == "extractGemMuons" || recoTracksLabel == "extractMe0Muons" ||
       recoTracksLabel == "ctfWithMaterialTracksP5LHCNavigation" || recoTracksLabel == "ctfWithMaterialTracksP5" ||
-      recoTracksLabel == "hltIterL3OIMuonTrackSelectionHighPurity" || recoTracksLabel == "hltIterL3MuonMerged" || recoTracksLabel == "hltIterL3MuonAndMuonFromL1Merged") {
+      recoTracksLabel == "hltIterL3OIMuonTrackSelectionHighPurity" || recoTracksLabel == "hltIterL3MuonMerged" || 
+      recoTracksLabel == "hltIterL3MuonAndMuonFromL1Merged") {
     if (parset_.getParameter<bool>("UseMuon")) {
       edm::LogWarning("MuonAssociatorEDProducer")
           << "\n*** WARNING : inconsistent input tracksTag = " << tracksTag << "\n with UseMuon = true"
@@ -88,15 +89,12 @@ void MuonAssociatorEDProducer::produce(edm::Event &event, const edm::EventSetup 
   }
   else {
     event.getByToken(tpToken_, TPCollection);
-    //    TrackingParticleCollection const& tPC = *(TPCollection.product());
     size_t nTP = TPCollection->size();
     for (size_t i = 0; i < nTP; ++i) {
       tmpTP.push_back(TrackingParticleRef(TPCollection, i));
     }
     tmpTPptr = &tmpTP;
   }
-
-  //  const TrackingParticleRefVector & tmpTPref = tmpTP;
 
   LogTrace("MuonAssociatorEDProducer") << "getting TrackingParticle collection - " << tpTag;
   LogTrace("MuonAssociatorEDProducer") << "\t... size = " << tmpTPptr->size();

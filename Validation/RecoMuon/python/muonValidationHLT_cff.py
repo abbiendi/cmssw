@@ -14,8 +14,6 @@ MTVhlt = Validation.RecoMuon.MuonTrackValidator_cfi.muonTrackValidator.clone()
 ##############################################
 MTVhlt.label_tp = ("TPmu")
 MTVhlt.label_tp_refvector = True
-#MTVhlt.label_tp_fake = ("TPmu")
-#MTVhlt.label_tp_fake_refvector = True
 MTVhlt.muonTPSelector.src = ("TPmu")
 MTVhlt.dirName = 'HLT/Muon/MuonTrack/'
 #MTVhlt.beamSpot = 'hltOfflineBeamSpot'

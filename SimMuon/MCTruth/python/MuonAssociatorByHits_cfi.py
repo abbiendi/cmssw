@@ -132,28 +132,11 @@ muonAssociatorByHits = cms.EDProducer("MuonAssociatorEDProducer",
     #     input collections
     #
     # ... reco::Track collection
-    # tracksTag = cms.InputTag("standAloneMuons"),
-    # tracksTag = cms.InputTag("standAloneMuons","UpdatedAtVtx"),
-    # tracksTag = cms.InputTag("standAloneSETMuons"),
-    # tracksTag = cms.InputTag("standAloneSETMuons","UpdatedAtVtx"),                                   
-    # tracksTag = cms.InputTag("cosmicMuons"),
     tracksTag = cms.InputTag("globalMuons"),
-    # tracksTag = cms.InputTag("tevMuons","firstHit"),
-    # tracksTag = cms.InputTag("tevMuons","picky"),                                     
-    # tracksTag = cms.InputTag("globalSETMuons"),
-    # tracksTag = cms.InputTag("globalCosmicMuons"),
-    # tracksTag = cms.InputTag("generalTracks"),
-    # tracksTag = cms.InputTag("ctfWithMaterialTracksP5LHCNavigation"),
-    # tracksTag = cms.InputTag("hltL2Muons"),
-    # tracksTag = cms.InputTag("hltL2Muons","UpdatedAtVtx"),
-    # tracksTag = cms.InputTag("hltL3Muons")
-    # tracksTag = cms.InputTag("hltL3Muons","L2Seeded")
-    # tracksTag = cms.InputTag("hltL3TkTracksFromL2")
-    #
+    ignoreMissingTrackCollection = cms.untracked.bool(False),
     # ... TrackingParticle collection
     tpTag = cms.InputTag("mix","MergedTrackTruth"),
-    tpRefVector = cms.bool(False),
-    ignoreMissingTrackCollection = cms.untracked.bool(False),
+    tpRefVector = cms.bool(False)
 )
 
 premix_stage2.toModify(muonAssociatorByHits, tpTag = "mixData:MergedTrackTruth")

@@ -425,27 +425,6 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
   }
   TrackingParticleRefVector const& tPC = *tmpTPPtr;
 
-  /*
-  TrackingParticleRefVector tmpTPfake;
-  const TrackingParticleRefVector* tmpTPfakePtr = nullptr;
-  edm::Handle<TrackingParticleCollection> TPCollectionHfake;
-  edm::Handle<TrackingParticleRefVector> TPCollectionHfakeRefVector;
-
-  if (label_tp_fake_refvector) {
-    event.getByToken(tp_fake_refvector_Token, TPCollectionHfakeRefVector);
-    tmpTPfakePtr = TPCollectionHfakeRefVector.product();
-  }
-  else {
-    event.getByToken(tp_fake_Token, TPCollectionHfake);
-    size_t nTPfake = TPCollectionHfake->size();
-    for (size_t i = 0; i < nTPfake; ++i) {
-      tmpTPfake.push_back(TrackingParticleRef(TPCollectionHfake, i));
-    }
-    tmpTPfakePtr = &tmpTPfake;
-  }
-  TrackingParticleRefVector const& tPCfake = *tmpTPfakePtr;
-  */
-
   edm::Handle<reco::BeamSpot> recoBeamSpotHandle;
   event.getByToken(bsSrc_Token, recoBeamSpotHandle);
   reco::BeamSpot bs = *recoBeamSpotHandle;
@@ -514,14 +493,12 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
       edm::LogVerbatim("MuonTrackValidator") << "\n# of TrackingParticles: " << tPC.size() << "\n";
       int ats = 0;
       int st = 0;
-      //      for (TrackingParticleCollection::size_type i = 0; i < tPCeff.size(); i++) {
+
       for (size_t i = 0; i < tPC.size(); i++) {
         bool TP_is_matched = false;
         bool isChargeOK = true;
         double quality = 0.;
 
-	//        TrackingParticleRef tpr(TPCollectionHeff, i);
-	//        TrackingParticle* tp = const_cast<TrackingParticle*>(tpr.get());
         const TrackingParticleRef& tpr = tPC[i];
         const TrackingParticle& tp = *tpr;
 
@@ -534,11 +511,8 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
         //and the impact parameters w.r.t. PCA
         if (parametersDefiner == "LhcParametersDefinerForTP") {
           LogTrace("MuonTrackValidator") << "TrackingParticle " << i;
-	  //          if (!tpSelector(*tp))
           if (!tpSelector(tp))
             continue;
-	  //          momentumTP = tp->momentum();
-	  //          vertexTP = tp->vertex();
           momentumTP = tp.momentum();
           vertexTP = tp.vertex();
           TrackingParticle::Vector momentum = Lhc_parametersDefinerTP->momentum(event, setup, tpr);
@@ -607,7 +581,6 @@ void MuonTrackValidator::analyze(const edm::Event& event, const edm::EventSetup&
         }
 
         // histos for efficiency vs eta
-
         fillPlotNoFlow(h_simuleta[w], xTPeta);
         if (TP_is_matched) {
           fillPlotNoFlow(h_assoceta[w], xTPeta);

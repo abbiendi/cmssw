@@ -196,19 +196,16 @@ tpToL3OITkMuonAssociation = MABHhlt.clone()
 tpToL3OITkMuonAssociation.tracksTag = 'hltIterL3OIMuonTrackSelectionHighPurity'
 tpToL3OITkMuonAssociation.UseTracker = True
 tpToL3OITkMuonAssociation.UseMuon = False
-#tpToL3OITkMuonAssociation.tpTag = ("TPtrack")
 
 tpToL3TkMuonAssociation = MABHhlt.clone()
 tpToL3TkMuonAssociation.tracksTag = 'hltIterL3MuonMerged'
 tpToL3TkMuonAssociation.UseTracker = True
 tpToL3TkMuonAssociation.UseMuon = False
-#tpToL3TkMuonAssociation.tpTag = ("TPtrack")
 
 tpToL3FromL1TkMuonAssociation = MABHhlt.clone()
 tpToL3FromL1TkMuonAssociation.tracksTag = 'hltIterL3MuonAndMuonFromL1Merged'
 tpToL3FromL1TkMuonAssociation.UseTracker = True
 tpToL3FromL1TkMuonAssociation.UseMuon = False
-#tpToL3FromL1TkMuonAssociation.tpTag = ("TPtrack")
 
 tpToL3GlbMuonAssociation = MABHhlt.clone()
 tpToL3GlbMuonAssociation.tracksTag = 'hltIterL3GlbMuon'

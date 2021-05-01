@@ -6,6 +6,7 @@
 #include "DataFormats/Common/interface/EDProductfwd.h"
 #include "SimDataFormats/TrackingAnalysis/interface/TrackingParticle.h"
 #include "SimDataFormats/TrackingAnalysis/interface/TrackingParticleFwd.h"
+#include "FWCore/MessageLogger/interface/MessageLogger.h"
 
 
 class TrackingParticleRefMuonProducer : public edm::stream::EDProducer<> {
@@ -28,6 +29,8 @@ TrackingParticleRefMuonProducer::TrackingParticleRefMuonProducer(const edm::Para
     ptmin_(iConfig.getParameter<double>("ptmin")),
     pmin_(iConfig.getParameter<double>("pmin"))
 {
+  edm::LogVerbatim("TrackingParticleRefMuonProducer") << "constructing  TrackingParticleRefMuonProducer" << iConfig.dump();
+
   produces<TrackingParticleRefVector>();
 }
 

@@ -22,8 +22,6 @@ MTV = Validation.RecoMuon.MuonTrackValidator_cfi.muonTrackValidator.clone()
 ##############################################
 MTV.label_tp = ("TPmu")
 MTV.label_tp_refvector = True
-#MTV.label_tp_fake = ("TPmu")
-#MTV.label_tp_fake_refvector = True
 MTV.muonTPSelector.src = ("TPmu")
 ##############################################
 
@@ -33,7 +31,6 @@ trkMuonTrackVTrackAssoc.associators = ('trackAssociatorByHits',)
 #trkMuonTrackVTrackAssoc.label = ('generalTracks',)
 trkMuonTrackVTrackAssoc.label = ('probeTracks',)
 trkMuonTrackVTrackAssoc.label_tp = ("TPtrack")
-#trkMuonTrackVTrackAssoc.label_tp_fake = ("TPtrack")
 trkMuonTrackVTrackAssoc.muonTPSelector.src = ("TPtrack")
 trkMuonTrackVTrackAssoc.muonHistoParameters = trkMuonHistoParameters
 
@@ -44,7 +41,6 @@ trkProbeTrackVMuonAssoc.associatormap = 'tpToTkMuonAssociation'
 #trkProbeTrackVMuonAssoc.label = ('generalTracks',)
 trkProbeTrackVMuonAssoc.label = ('probeTracks',)
 trkProbeTrackVMuonAssoc.label_tp = ("TPtrack")
-#trkProbeTrackVMuonAssoc.label_tp_fake = ("TPtrack")
 trkProbeTrackVMuonAssoc.muonTPSelector.src = ("TPtrack")
 trkProbeTrackVMuonAssoc.muonHistoParameters = trkMuonHistoParameters
 
@@ -82,7 +78,6 @@ displacedTrackVMuonAssoc = MTV.clone()
 displacedTrackVMuonAssoc.associatormap = 'tpToDisplacedTrkMuonAssociation'
 displacedTrackVMuonAssoc.label = ('displacedTracks',)
 displacedTrackVMuonAssoc.label_tp = ("TPtrack")
-#displacedTrackVMuonAssoc.label_tp_fake = ("TPtrack")
 displacedTrackVMuonAssoc.muonTPSelector = displacedMuonTPSet
 displacedTrackVMuonAssoc.muonTPSelector.src = ("TPtrack")
 displacedTrackVMuonAssoc.muonHistoParameters = displacedTrkMuonHistoParameters
@@ -132,18 +127,8 @@ pfMuonTrackVMuonAssoc = MTV.clone()
 pfMuonTrackVMuonAssoc.associatormap = 'tpToPFMuonAssociation'
 pfMuonTrackVMuonAssoc.label = ('pfMuonTracks',)
 pfMuonTrackVMuonAssoc.label_tp = ("TPpfmu")
-#pfMuonTrackVMuonAssoc.label_tp_fake = ("TPpfmu")
 pfMuonTrackVMuonAssoc.muonTPSelector.src = ("TPpfmu")
 pfMuonTrackVMuonAssoc.muonHistoParameters = glbMuonHistoParameters
-
-trkProbeTrackVMuonAssoc = MTV.clone()
-trkProbeTrackVMuonAssoc.associatormap = 'tpToTkMuonAssociation'
-#trkProbeTrackVMuonAssoc.label = ('generalTracks',)
-trkProbeTrackVMuonAssoc.label = ('probeTracks',)
-trkProbeTrackVMuonAssoc.label_tp = ("TPtrack")
-#trkProbeTrackVMuonAssoc.label_tp_fake = ("TPtrack")
-trkProbeTrackVMuonAssoc.muonTPSelector.src = ("TPtrack")
-trkProbeTrackVMuonAssoc.muonHistoParameters = trkMuonHistoParameters
 
 recomuMuonTrackVMuonAssoc = MTV.clone()
 recomuMuonTrackVMuonAssoc.associatormap = 'tpTorecoMuonMuonAssociation'
@@ -347,18 +332,13 @@ recoCosmicMuonValidation = cms.Sequence(
 
 # sequences for muon upgrades
 #
-_run3_muonValidation = recoMuonValidation.copy()              #For full validation
-#_run3_muonValidation = recoMuonValidation_reduced_seq.copy()
+_run3_muonValidation = recoMuonValidation.copy()
 _run3_muonValidation += gemMuonValidation
 
-#_phase2_muonValidation = recoMuonValidation.copy()              #For full validation 
-#_phase2_muonValidation = recoMuonValidation_reduced_seq.copy()
 _phase2_muonValidation = cms.Sequence(TPtrack_seq + TPmu_seq + TPpfmu_seq + recoMuonValidation_reduced_seq)
 _phase2_muonValidation += gemMuonValidation_phase2
 _phase2_muonValidation += me0MuonValidation
 
-#_phase2_ge0_muonValidation = recoMuonValidation.copy()          #For full validation
-#_phase2_ge0_muonValidation = recoMuonValidation_reduced_seq.copy()
 _phase2_ge0_muonValidation =  cms.Sequence(TPtrack_seq + TPmu_seq + TPpfmu_seq + recoMuonValidation_reduced_seq)
 _phase2_ge0_muonValidation += gemMuonValidation_phase2
 

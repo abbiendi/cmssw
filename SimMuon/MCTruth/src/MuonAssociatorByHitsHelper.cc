@@ -649,71 +649,7 @@ MuonAssociatorByHitsHelper::IndexAssociation MuonAssociatorByHitsHelper::associa
         if (global_nshared == 0)
           continue;  // if this TP shares no hits with the current reco::Track
                      // loop over
-
-        // This does not work with the new TP interface
-        /*
-        for(std::vector<PSimHit>::const_iterator TPhit =
-        trpart->pSimHit_begin(); TPhit != trpart->pSimHit_end(); TPhit++) {
-          DetId dId = DetId(TPhit->detUnitId());
-          DetId::Detector detector = dId.det();
-
-          if (detector == DetId::Tracker) {
-            n_tracker_simhits++;
-
-            unsigned int subdetId = static_cast<unsigned int>(dId.subdetId());
-            if (!UsePixels && (subdetId==PixelSubdetector::PixelBarrel ||
-        subdetId==PixelSubdetector::PixelEndcap) ) continue;
-
-            SiStripDetId* stripDetId = 0;
-            if (subdetId==SiStripDetId::TIB||subdetId==SiStripDetId::TOB||
-                subdetId==SiStripDetId::TID||subdetId==SiStripDetId::TEC)
-              stripDetId= new SiStripDetId(dId);
-
-            bool newhit = true;
-            for(std::vector<PSimHit>::const_iterator TPhitOK = tphits.begin();
-        TPhitOK != tphits.end(); TPhitOK++) { DetId dIdOK =
-        DetId(TPhitOK->detUnitId());
-              //no grouped, no splitting
-              if (!UseGrouped && !UseSplitting)
-                if (tTopo->layer(dId)==tTopo->layer(dIdOK) &&
-                    dId.subdetId()==dIdOK.subdetId()) newhit = false;
-              //no grouped, splitting
-              if (!UseGrouped && UseSplitting)
-                if (tTopo->layer(dId)==tTopo->layer(dIdOK) &&
-                    dId.subdetId()==dIdOK.subdetId() &&
-                    (stripDetId==0 ||
-        stripDetId->partnerDetId()!=dIdOK.rawId())) newhit = false;
-              //grouped, no splitting
-              if (UseGrouped && !UseSplitting)
-                if ( tTopo->layer(dId)== tTopo->layer(dIdOK) &&
-                    dId.subdetId()==dIdOK.subdetId() &&
-                    stripDetId!=0 && stripDetId->partnerDetId()==dIdOK.rawId())
-                  newhit = false;
-              //grouped, splitting
-              if (UseGrouped && UseSplitting)
-                newhit = true;
-            }
-            if (newhit) {
-              tphits.push_back(*TPhit);
-            }
-            delete stripDetId;
-          }
-          else if (detector == DetId::Muon) {
-            n_muon_simhits++;
-
-            // discard BAD CSC chambers (ME4/2) from hit counting
-            if (dId.subdetId() == MuonSubdetId::CSC) {
-              if (csctruth.cscBadChambers->isInBadChamber(CSCDetId(dId))) {
-                // edm::LogVerbatim("MuonAssociatorByHitsHelper")<<"This PSimHit
-        is in a BAD CSC chamber, CSCDetId = "<<CSCDetId(dId); n_muon_simhits--;
-              }
-            }
-
-          }
-        }
-        */
-        //	n_tracker_recounted_simhits = tphits.size();
-
+	
         // adapt to new TP interface: this gives the total number of hits in
         // tracker
         //   should reproduce the behaviour of UseGrouped=UseSplitting=.true.
